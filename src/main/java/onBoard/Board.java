@@ -11,6 +11,10 @@ public class Board {
     {
         fillTheBoard();
     }
+    public void movePiece(Piece piece, int desiredPosX, int desiredPosY){
+        piece.setPosX(desiredPosX);
+        piece.setPosY(desiredPosY);
+    }
     private void fillTheBoard()
     {
         for (int i = 1; i < 9; i++)

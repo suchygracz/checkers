@@ -10,10 +10,6 @@ public class Piece {
         this.posX = posX;
         this.posY = posY;
     }
-    public void movePiece(Piece piece, int desiredPosX, int desiredPosY){
-        piece.setPosX(desiredPosX);
-        piece.setPosY(desiredPosY);
-    }
     public int getPosX() {
         return posX;
     }
