@@ -1,7 +1,9 @@
 package onBoard;
 
+import javafx.util.Pair;
+
 public class King extends Piece {
-    public King(Piece.color color, int posX, int posY) {
-        super(color, posX, posY);
+    public King(Piece.color color, Pair<Integer, Integer> pos) {
+        super(color, pos);
     }
 }

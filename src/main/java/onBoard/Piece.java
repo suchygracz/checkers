@@ -1,26 +1,19 @@
 package onBoard;
 
+import javafx.util.Pair;
+
 public class Piece {
     private int ID;
     static enum color{white, black};
     private Piece.color color;
-    private int posX, posY;
-    public Piece(Piece.color color, int posX, int posY) {
+    private Pair<Integer, Integer> pos;
+    public Piece(Piece.color color, Pair<Integer, Integer> pos) {
         this.color = color;
-        this.posX = posX;
-        this.posY = posY;
+        this.pos = pos;
     }
-    public int getPosX() {
-        return posX;
-    }
-    public void setPosX(int posX) {
-        this.posX = posX;
-    }
-    public int getPosY() {
-        return posY;
-    }
-    public void setPosY(int posY) {
-        this.posY = posY;
+    public Pair<Integer, Integer> getPos() {return pos;}
+    public void setPos(Pair<Integer, Integer> pos ) {
+        this.pos = pos;
     }
     public Piece.color getColor() {
         return color;

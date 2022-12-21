@@ -1,6 +1,6 @@
 package onBoard;
 
-import onBoard.Piece;
+import javafx.util.Pair;
 
 import java.util.Vector;
 
@@ -11,9 +11,10 @@ public class Board {
     {
         fillTheBoard();
     }
-    public void movePiece(Piece piece, int desiredPosX, int desiredPosY){
-        piece.setPosX(desiredPosX);
-        piece.setPosY(desiredPosY);
+    public void movePiece(Piece piece, Pair<Integer, Integer> pos){
+        if(isThisSquareFree(pos)) {
+            piece.setPos(pos);
+        }
     }
     private void fillTheBoard()
     {
@@ -22,11 +23,25 @@ public class Board {
             for (int j = 1; j < 9; j++)
             {
                 if ( (i + j) % 2 == 0 ) {
-                    whitePieces.add(new Pawn(Piece.color.white, i, j));
+                    whitePieces.add(new Pawn(Piece.color.white, new Pair<Integer, Integer>(i, j)));
                 } else {
-                    blackPieces.add(new Pawn(Piece.color.white, i, j));
+                    blackPieces.add(new Pawn(Piece.color.white, new Pair<Integer, Integer>(i, j)));
                 }
             }
         }
+    }
+    private boolean isThisSquareFree(Pair<Integer, Integer> pos)
+    {
+        for(Piece piece : whitePieces)
+        {
+            if(piece.getPos() == pos) return false;
+        }
+
+        for(Piece piece : blackPieces)
+        {
+            if(piece.getPos() == pos) return false;
+        }
+
+        return true;
     }
 }
