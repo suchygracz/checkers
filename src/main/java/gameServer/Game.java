@@ -1,6 +1,5 @@
 package gameServer;
 
-import checkersRules.GameType;
 import checkersRules.ValidatorOfRules;
 import onBoard.Board;
 

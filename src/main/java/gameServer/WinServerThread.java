@@ -1,7 +1,6 @@
 package gameServer;
 
 import checkersRules.ClassicGame;
-import checkersRules.GameType;
 import checkersRules.ValidatorOfRules;
 
 import java.io.*;
