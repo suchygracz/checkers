@@ -13,9 +13,11 @@ public class Board {
     }
     private void fillTheBoard()
     {
-        for (int i = 1; i < 9; i++){
-            for (int j = 1; j < 9; j++){
-                if ( i+j % 2 == 0 ) {
+        for (int i = 1; i < 9; i++)
+        {
+            for (int j = 1; j < 9; j++)
+            {
+                if ( (i + j) % 2 == 0 ) {
                     whitePieces.add(new Pawn(Piece.color.white, i, j));
                 } else {
                     blackPieces.add(new Pawn(Piece.color.white, i, j));
