@@ -1,17 +1,19 @@
 package gameServer;
 
+import checkersRules.ClassicGame;
+import checkersRules.GameType;
+
 import java.io.*;
 import java.net.*;
 
 
 public class WinServerThread {
-
     public static void main(String[] args) {
-
         try (ServerSocket serverSocket = new ServerSocket(4444)) {
 
             System.out.println("Server is listening on port 4444");
 
+            ClassicGame type = new ClassicGame();
             while (true) {
                 Socket firstClient = serverSocket.accept();
                 System.out.println("First client connected");
@@ -20,7 +22,8 @@ public class WinServerThread {
                 Socket secondClient = serverSocket.accept();
                 System.out.println("Second client connected");
 
-                Game g = new Game(firstClient, secondClient);
+
+                Game g = new Game(firstClient, secondClient, type);
                 Thread gTh = new Thread(g);
                 gTh.start();
 

@@ -1,5 +1,9 @@
 package gameServer;
 
+import checkersRules.GameType;
+import checkersRules.ValidatorOfRules;
+import onBoard.Board;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -7,6 +11,8 @@ public class Game implements Runnable{
 
     private Socket firstPlayer;
     private Socket secondPlayer;
+    private Board board = new Board();
+    private final ValidatorOfRules validator;
 
     private final static int FIRST = 1;
     private final static int SECOND = 2;
@@ -21,9 +27,10 @@ public class Game implements Runnable{
     OutputStream outputSecondPlayer;
     PrintWriter printerSecondPlayer;
 
-    public Game(Socket firstPlayer, Socket secondPlayer){
+    public Game(Socket firstPlayer, Socket secondPlayer, ValidatorOfRules validator){
         this.firstPlayer = firstPlayer;
         this.secondPlayer= secondPlayer;
+        this.validator = validator;
     }
     @Override
     public void run() {
