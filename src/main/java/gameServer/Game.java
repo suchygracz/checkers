@@ -11,6 +11,16 @@ public class Game implements Runnable{
     private final static int FIRST = 1;
     private final static int SECOND = 2;
     private static int turn = FIRST;
+
+    InputStream inputFirstPlayer;
+    BufferedReader bufforFirstPlayer;
+    InputStream inputSecondPlayer;
+    BufferedReader bufforSecondPlayer;
+    OutputStream outputFirstPlayer;
+    PrintWriter printerFirstPlayer;
+    OutputStream outputSecondPlayer;
+    PrintWriter printerSecondPlayer;
+
     public Game(Socket firstPlayer, Socket secondPlayer){
         this.firstPlayer = firstPlayer;
         this.secondPlayer= secondPlayer;
@@ -18,21 +28,7 @@ public class Game implements Runnable{
     @Override
     public void run() {
         try{
-            //Inicjalizacja pobieranie od socketa dla player1
-            InputStream inputFirstPlayer = firstPlayer.getInputStream();
-            BufferedReader bufforFirstPlayer = new BufferedReader(new InputStreamReader(inputFirstPlayer));
-
-            //Inicjalizacja pobieranie od socketa dla player2
-            InputStream inputSecondPlayer = secondPlayer.getInputStream();
-            BufferedReader bufforSecondPlayer = new BufferedReader(new InputStreamReader(inputSecondPlayer));
-
-            //Inicjalizacja Wysylania do socketa dla player1
-            OutputStream outputFirstPlayer = firstPlayer.getOutputStream();
-            PrintWriter printerFirstPlayer = new PrintWriter(outputFirstPlayer, true);
-
-            //Inicjalizacja Wysylania do socketa dla player2
-            OutputStream outputSecondPlayer = secondPlayer.getOutputStream();
-            PrintWriter printerSecondPlayer = new PrintWriter(outputSecondPlayer, true);
+            initializeInputAndOutput();
 
             printerFirstPlayer.println("1");
             printerSecondPlayer.println("2");
@@ -68,4 +64,19 @@ public class Game implements Runnable{
     private void sendMove(DataOutputStream out, String text) throws IOException {
         out.writeChars(text);
     }
+
+    private void initializeInputAndOutput() throws IOException {
+        inputFirstPlayer = firstPlayer.getInputStream();
+        bufforFirstPlayer = new BufferedReader(new InputStreamReader(inputFirstPlayer));
+
+        inputSecondPlayer = secondPlayer.getInputStream();
+        bufforSecondPlayer = new BufferedReader(new InputStreamReader(inputSecondPlayer));
+
+        outputFirstPlayer = firstPlayer.getOutputStream();
+        printerFirstPlayer = new PrintWriter(outputFirstPlayer, true);
+
+        outputSecondPlayer = secondPlayer.getOutputStream();
+        printerSecondPlayer = new PrintWriter(outputSecondPlayer, true);
+    }
+
 }
