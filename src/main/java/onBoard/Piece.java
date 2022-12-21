@@ -1,13 +1,12 @@
 package onBoard;
 
 public class Piece {
-    int ID;
-    String color;
-    String type;
-    int posX, posY;
-    public Piece(String color, String type, int posX, int posY) {
+    private int ID;
+    static enum color{white, black};
+    private Piece.color color;
+    private int posX, posY;
+    public Piece(Piece.color color, int posX, int posY) {
         this.color = color;
-        this.type = type;
         this.posX = posX;
         this.posY = posY;
     }
@@ -27,16 +26,10 @@ public class Piece {
     public void setPosY(int posY) {
         this.posY = posY;
     }
-    public String getColor() {
+    public Piece.color getColor() {
         return color;
     }
-    public void setColor(String color) {
+    public void setColor(Piece.color color) {
         this.color = color;
-    }
-    public String getType() {
-        return type;
-    }
-    public void setType(String type) {
-        this.type = type;
     }
 }
