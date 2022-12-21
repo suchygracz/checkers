@@ -1,3 +1,5 @@
+package onBoard;
+
 public class Piece {
     int ID;
     String color;
@@ -13,35 +15,27 @@ public class Piece {
         piece.setPosX(desiredPosX);
         piece.setPosY(desiredPosY);
     }
-
     public int getPosX() {
         return posX;
     }
-
     public void setPosX(int posX) {
         this.posX = posX;
     }
-
     public int getPosY() {
         return posY;
     }
-
     public void setPosY(int posY) {
         this.posY = posY;
     }
-
     public String getColor() {
         return color;
     }
-
     public void setColor(String color) {
         this.color = color;
     }
-
     public String getType() {
         return type;
     }
-
     public void setType(String type) {
         this.type = type;
     }
