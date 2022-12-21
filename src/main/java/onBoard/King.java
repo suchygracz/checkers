@@ -7,4 +7,8 @@ public class King extends Piece {
     public King(Piece.color color, Pair<Integer, Integer> pos) {
         super(color, pos);
     }
+    public King(Piece pawn)
+    {
+        super(pawn.getColor(), pawn.getPos());
+    }
 }

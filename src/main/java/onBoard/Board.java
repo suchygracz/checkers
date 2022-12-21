@@ -1,7 +1,6 @@
 package onBoard;
 
 import javafx.util.Pair;
-
 import java.util.Vector;
 
 public class Board {
@@ -11,10 +10,16 @@ public class Board {
     {
         fillTheBoard();
     }
-    public void movePiece(Piece piece, Pair<Integer, Integer> pos){
-        if(isThisSquareFree(pos) && isJumpLegnthEnough(piece, pos)) {
+    public boolean movePiece(Piece piece, Pair<Integer, Integer> pos){
+        if(isThisSquareFree(pos) && isJumpLengthEnough(piece, pos)) {
             piece.setPos(pos);
+            if(piece.getClass() == Pawn.class && pos.getKey() == 8)
+            {
+                exchangeForKing(piece);
+            }
+            return true;
         }
+        return false;
     }
     private void fillTheBoard()
     {
@@ -44,7 +49,7 @@ public class Board {
 
         return true;
     }
-    private boolean isJumpLegnthEnough(Piece piece, Pair<Integer, Integer> pos) {
+    private boolean isJumpLengthEnough(Piece piece, Pair<Integer, Integer> pos) {
         int posX = piece.getPos().getKey();
         int posY = piece.getPos().getValue();
         int posXNew = pos.getKey();
@@ -52,4 +57,20 @@ public class Board {
 
         return posXNew - posX <= piece.getJumpLength() && posYNew - posY <= piece.getJumpLength();
     }
+    private void exchangeForKing(Piece piece)
+    {
+        if(piece.getColor() == Piece.color.black)
+        {
+            King king = new King(piece);
+            blackPieces.remove(piece);
+            blackPieces.add(king);
+        }
+        else
+        {
+            King king = new King(piece);
+            whitePieces.remove(piece);
+            whitePieces.add(king);
+        }
+    }
+
 }
