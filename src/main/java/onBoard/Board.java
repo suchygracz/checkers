@@ -12,7 +12,7 @@ public class Board {
         fillTheBoard();
     }
     public void movePiece(Piece piece, Pair<Integer, Integer> pos){
-        if(isThisSquareFree(pos)) {
+        if(isThisSquareFree(pos) && isJumpLegnthEnough(piece, pos)) {
             piece.setPos(pos);
         }
     }
@@ -43,5 +43,13 @@ public class Board {
         }
 
         return true;
+    }
+    private boolean isJumpLegnthEnough(Piece piece, Pair<Integer, Integer> pos) {
+        int posX = piece.getPos().getKey();
+        int posY = piece.getPos().getValue();
+        int posXNew = pos.getKey();
+        int posYNew = pos.getValue();
+
+        return posXNew - posX <= piece.getJumpLength() && posYNew - posY <= piece.getJumpLength();
     }
 }
