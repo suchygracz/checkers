@@ -9,9 +9,18 @@ public class Board {
     Vector<Piece> blackPieces = new Vector<>(12);
     public Board()
     {
-        for(int i = 0; i < 12; i++)
-        {
-            whitePieces.add(new Pawn(Piece.color.white, 1, 1));
+        fillTheBoard();
+    }
+    private void fillTheBoard()
+    {
+        for (int i = 1; i < 9; i++){
+            for (int j = 1; j < 9; j++){
+                if ( i+j % 2 == 0 ) {
+                    whitePieces.add(new Pawn(Piece.color.white, i, j));
+                } else {
+                    blackPieces.add(new Pawn(Piece.color.white, i, j));
+                }
+            }
         }
     }
 }
