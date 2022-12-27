@@ -72,5 +72,4 @@ public class Board {
             whitePieces.add(king);
         }
     }
-
 }
