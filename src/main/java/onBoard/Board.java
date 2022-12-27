@@ -21,11 +21,19 @@ public class Board {
         }
         return false;
     }
-    public Piece getPiece(Vector<Piece> pieces, Pair<Integer, Integer> pos)
+    public Piece getBlackPiece(Pair<Integer, Integer> pos)
     {
-        for(Piece piece : pieces)
+        for(Piece piece : blackPieces)
         {
-            if(piece.getPos() == pos) return piece;
+            if(piece.getPos().equals(pos)) return piece;
+        }
+        return null;
+    }
+    public Piece getWhitePiece(Pair<Integer, Integer> pos)
+    {
+        for(Piece piece : whitePieces)
+        {
+            if(piece.getPos().equals(pos)) return piece;
         }
         return null;
     }
@@ -36,46 +44,48 @@ public class Board {
             for (int j = 1; j < 9; j++)
             {
                 if ( (i + j) % 2 == 0 ) {
-                    whitePieces.add(new Pawn(Piece.color.white, new Pair<Integer, Integer>(i, j)));
-                } else {
+                    if(i < 4) {
+                        whitePieces.add(new Pawn(Piece.color.white, new Pair<Integer, Integer>(i, j)));
+                    }
+                } else if (i > 5){
                     blackPieces.add(new Pawn(Piece.color.white, new Pair<Integer, Integer>(i, j)));
                 }
             }
         }
     }
-    private boolean isThisSquareFree(Pair<Integer, Integer> pos)
+    public boolean isThisSquareFree(Pair<Integer, Integer> pos)
     {
         for(Piece piece : whitePieces)
         {
-            if(piece.getPos() == pos) return false;
+            if(piece.getPos().equals(pos)) return false;
         }
 
         for(Piece piece : blackPieces)
         {
-            if(piece.getPos() == pos) return false;
+            if(piece.getPos().equals(pos)) return false;
         }
 
         return true;
     }
-    private boolean isJumpLengthEnough(Piece piece, Pair<Integer, Integer> pos) {
+    public boolean isJumpLengthEnough(Piece piece, Pair<Integer, Integer> pos) {
         int posX = piece.getPos().getKey();
         int posY = piece.getPos().getValue();
         int posXNew = pos.getKey();
         int posYNew = pos.getValue();
+        int jumpLength = piece.getJumpLength();
 
-        return posXNew - posX <= piece.getJumpLength() && posYNew - posY <= piece.getJumpLength();
+        return posXNew - posX <= jumpLength && posYNew - posY <= jumpLength;
     }
     private void exchangeForKing(Piece piece)
     {
+        King king = new King(piece);
         if(piece.getColor() == Piece.color.black)
         {
-            King king = new King(piece);
             blackPieces.remove(piece);
             blackPieces.add(king);
         }
         else
         {
-            King king = new King(piece);
             whitePieces.remove(piece);
             whitePieces.add(king);
         }
