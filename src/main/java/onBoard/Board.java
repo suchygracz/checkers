@@ -21,6 +21,14 @@ public class Board {
         }
         return false;
     }
+    public Piece getPiece(Vector<Piece> pieces, Pair<Integer, Integer> pos)
+    {
+        for(Piece piece : pieces)
+        {
+            if(piece.getPos() == pos) return piece;
+        }
+        return null;
+    }
     private void fillTheBoard()
     {
         for (int i = 1; i < 9; i++)
