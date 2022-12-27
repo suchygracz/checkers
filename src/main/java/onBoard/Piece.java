@@ -3,7 +3,7 @@ package onBoard;
 import javafx.util.Pair;
 
 public class Piece {
-    static enum color{white, black};
+    public static enum color{white, black};
     private final Piece.color color;
     private final static int jumpLength = 1;
     private Pair<Integer, Integer> pos;
