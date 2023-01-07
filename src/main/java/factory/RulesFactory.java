@@ -5,7 +5,7 @@ import checkersRules.EnglishGame;
 import checkersRules.RussianGame;
 import checkersRules.TurkishGame;
 
-public class RulesFactory implements AbstractFactory {
+public class RulesFactory implements AbstractFactory<AbstractGame> {
     public AbstractGame create(String rulesType){
         if ("EnglishGame".equalsIgnoreCase(rulesType)){
             return new EnglishGame();

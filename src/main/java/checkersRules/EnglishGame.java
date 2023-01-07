@@ -6,7 +6,7 @@ public class EnglishGame implements AbstractGame{
     public boolean doYouHaveToBeat = true;
     public boolean canYouMoveBackwardsWithNormalPieces = false;
     public boolean canYouBeatBackwards = false;
-    public boolean canQueenMoveMultipleFields = false;
+    public boolean canKingMoveMultipleFields = false;
 
     @Override
     public boolean getDoYouHaveToBeat() {
@@ -24,7 +24,7 @@ public class EnglishGame implements AbstractGame{
     }
 
     @Override
-    public boolean getCanQueenMoveMultipleFields() {
-        return canQueenMoveMultipleFields;
+    public boolean getCanKingMoveMultipleFields() {
+        return canKingMoveMultipleFields;
     }
 }

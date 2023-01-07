@@ -4,7 +4,7 @@ public class TurkishGame implements AbstractGame{
     public boolean doYouHaveToBeat = true;
     public boolean canYouMoveBackwardsWithNormalPieces = false;
     public boolean canYouBeatBackwards = false;
-    public boolean canQueenMoveMultipleFields = true;
+    public boolean canKingMoveMultipleFields = true;
     @Override
     public boolean getDoYouHaveToBeat() {
         return doYouHaveToBeat;
@@ -21,7 +21,7 @@ public class TurkishGame implements AbstractGame{
     }
 
     @Override
-    public boolean getCanQueenMoveMultipleFields() {
-        return canQueenMoveMultipleFields;
+    public boolean getCanKingMoveMultipleFields() {
+        return canKingMoveMultipleFields;
     }
 }
