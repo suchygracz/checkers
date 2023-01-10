@@ -37,6 +37,13 @@ public class Board {
         }
         return null;
     }
+
+    private void killWhite(Pair<Integer, Integer> pos){
+        whitePieces.remove(getWhitePiece(pos));
+    }
+    private void killBlack(Pair<Integer, Integer> pos){
+        blackPieces.remove(getBlackPiece(pos));
+    }
     private void fillTheBoard()
     {
         for (int i = 1; i < 9; i++)
@@ -45,10 +52,10 @@ public class Board {
             {
                 if ( (i + j) % 2 == 0 ) {
                     if(i < 4) {
-                        whitePieces.add(new Pawn(Piece.color.white, new Pair<Integer, Integer>(i, j)));
+                        whitePieces.add(new Pawn(Piece.color.white, new Pair<>(i, j)));
                     }
                 } else if (i > 5){
-                    blackPieces.add(new Pawn(Piece.color.white, new Pair<Integer, Integer>(i, j)));
+                    blackPieces.add(new Pawn(Piece.color.white, new Pair<>(i, j)));
                 }
             }
         }
