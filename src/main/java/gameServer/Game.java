@@ -41,25 +41,20 @@ public class Game implements Runnable{
 
             String line;
             do {
-                if (turn == SECOND) {
-                    // Odbieranie od socketa
-                    line = bufforSecondPlayer.readLine();
-                    // Wypisywanie na serwerze
-                    System.out.println(line);
-                    // Wysylanie do socketa
-                    printerFirstPlayer.println("-> (" + line + ")");
-                    turn = FIRST;
-                }
+                // Odbieranie od socketa
+                line = bufforFirstPlayer.readLine();
+                // Wypisywanie na serwerze
+                System.out.println(line);
+                // Wysylanie do socketa
+                printerSecondPlayer.println("-> (" + line + ")");
 
-                if (turn == FIRST) {
-                    // Odbieranie od socketa
-                    line = bufforFirstPlayer.readLine();
-                    // Wypisywanie na serwerze
-                    System.out.println(line);
-                    // Wysylanie do socketa
-                    printerSecondPlayer.println("-> (" + line + ")");
-                    turn = SECOND;
-                }
+                // Odbieranie od socketa
+                line = bufforSecondPlayer.readLine();
+                // Wypisywanie na serwerze
+                System.out.println(line);
+                // Wysylanie do socketa
+                printerFirstPlayer.println("-> (" + line + ")");
+
             } while (true);
 
         } catch (IOException ex) {
