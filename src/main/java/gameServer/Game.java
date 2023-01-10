@@ -1,6 +1,6 @@
 package gameServer;
 
-import checkersRules.ValidatorOfRules;
+import checkersRules.AbstractGame;
 import onBoard.Board;
 
 import java.io.*;
@@ -11,11 +11,7 @@ public class Game implements Runnable{
     private Socket firstPlayer;
     private Socket secondPlayer;
     private Board board = new Board();
-    private final ValidatorOfRules validator;
-
-    private final static int FIRST = 1;
-    private final static int SECOND = 2;
-    private static int turn = FIRST;
+    private final AbstractGame gameType;
 
     InputStream inputFirstPlayer;
     BufferedReader bufforFirstPlayer;
@@ -26,10 +22,10 @@ public class Game implements Runnable{
     OutputStream outputSecondPlayer;
     PrintWriter printerSecondPlayer;
 
-    public Game(Socket firstPlayer, Socket secondPlayer, ValidatorOfRules validator){
+    public Game(Socket firstPlayer, Socket secondPlayer, AbstractGame gameType){
         this.firstPlayer = firstPlayer;
-        this.secondPlayer= secondPlayer;
-        this.validator = validator;
+        this.secondPlayer = secondPlayer;
+        this.gameType = gameType;
     }
     @Override
     public void run() {
