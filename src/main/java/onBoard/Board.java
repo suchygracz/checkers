@@ -37,6 +37,38 @@ public class Board {
         }
         return null;
     }
+    public boolean doYouHaveToBeatWhite()
+    {
+        int posX;
+        int posY;
+        for(Piece piece : blackPieces)
+        {
+            posX = piece.getPos().getKey();
+            posY = piece.getPos().getValue();
+            if(getWhitePiece(new Pair<>(posX + 1, posY + 1)) != null && isThisSquareFree(new Pair<>(posX + 2, posY + 2))) return true;
+            if(getWhitePiece(new Pair<>(posX - 1, posY + 1)) != null && isThisSquareFree(new Pair<>(posX - 2, posY + 2))) return true;
+            if(getWhitePiece(new Pair<>(posX + 1, posY - 1)) != null && isThisSquareFree(new Pair<>(posX + 2, posY - 2))) return true;
+            if(getWhitePiece(new Pair<>(posX - 1, posY - 1)) != null && isThisSquareFree(new Pair<>(posX - 2, posY - 2))) return true;
+        }
+
+        return false;
+    }
+    public boolean doYouHaveToBeatBlack()
+    {
+        int posX;
+        int posY;
+        for(Piece piece : whitePieces)
+        {
+            posX = piece.getPos().getKey();
+            posY = piece.getPos().getValue();
+            if(getBlackPiece(new Pair<>(posX + 1, posY + 1)) != null && isThisSquareFree(new Pair<>(posX + 2, posY + 2))) return true;
+            if(getBlackPiece(new Pair<>(posX - 1, posY + 1)) != null && isThisSquareFree(new Pair<>(posX - 2, posY + 2))) return true;
+            if(getBlackPiece(new Pair<>(posX + 1, posY - 1)) != null && isThisSquareFree(new Pair<>(posX + 2, posY - 2))) return true;
+            if(getBlackPiece(new Pair<>(posX - 1, posY - 1)) != null && isThisSquareFree(new Pair<>(posX - 2, posY - 2))) return true;
+        }
+
+        return false;
+    }
 
     private void killWhite(Pair<Integer, Integer> pos){
         whitePieces.remove(getWhitePiece(pos));
