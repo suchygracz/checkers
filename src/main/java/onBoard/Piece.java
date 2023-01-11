@@ -3,6 +3,8 @@ package onBoard;
 import javafx.util.Pair;
 
 public class Piece {
+
+
     public static enum color{white, black};
     private final Piece.color color;
     private final static int jumpLength = 1;
@@ -15,6 +17,8 @@ public class Piece {
     public void setPos(Pair<Integer, Integer> pos ) {
         this.pos = pos;
     }
+    public Integer getPositionx() {return pos.getKey();}
+    public Integer getPositiony() {return pos.getValue();}
     public Piece.color getColor() {
         return color;
     }

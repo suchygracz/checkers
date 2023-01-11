@@ -2,14 +2,24 @@ package gameServer;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
+import javafx.util.Pair;
+import onBoard.Board;
+import onBoard.Pawn;
+import onBoard.Piece;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Vector;
 
 public class CheckersClient extends Application {
     public static void main(String[] args) {
@@ -17,10 +27,33 @@ public class CheckersClient extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws FileNotFoundException {
+        Vector<Piece> whitePieces = new Vector<>(12);
+        Vector<Piece> blackPieces = new Vector<>(12);
+        for (int i = 1; i < 9; i++) {
+            for (int j = 1; j < 9; j++) {
+                if ( (i + j) % 2 != 0 ) {
+
+                    if (i < 4) {
+                        blackPieces.add(new Pawn(Piece.color.white, new Pair<Integer, Integer>(j, i)));
+                    }
+
+
+
+                    else if (i > 5) {
+                        whitePieces.add(new Pawn(Piece.color.white, new Pair<Integer, Integer>(j, i)));
+                    }
+
+            }
+        }
+        }
+
         VBox root = new VBox();
-        GridPane board = new GridPane();
-        board.setPadding(new Insets(0,0,0,0));
+        StackPane stackPane = new StackPane();
+        Pane board = new Pane();//grid
+        Pane whiteAndBlackCheckers = new Pane();
+        //board.setPadding(new Insets(0,0,0,0));
+        stackPane.getChildren().addAll(board,whiteAndBlackCheckers);
 
         HBox buttons = new HBox();
         buttons.setPadding(new Insets(10, 10, 10, 10)); // top, right, bottom, left
@@ -51,20 +84,53 @@ public class CheckersClient extends Application {
                 } else {
                     rect.setFill(Color.BLACK);
                 }
+                rect.setX(col*50);
+                rect.setY(row*50);
 
                 // Add the rectangle to the board
-                board.add(rect, col, row);
+                board.getChildren().add(rect);// board.add(rect, col, row);
             }
         }
 
+        for (Piece piece : whitePieces) {
+            int x = piece.getPositionx();
+            int y = piece.getPositiony();
+            Ellipse wchecker = new Ellipse(20,20);
+            wchecker.setCenterX(-25+(x)*50);//-50
+            wchecker.setCenterY(-25+(y)*50);
+            wchecker.setFill(Color.BEIGE);
+            wchecker.setStroke(Color.DARKGRAY);
+            wchecker.setStrokeWidth(2);
+            board.getChildren().add(wchecker);
+        }
+
+        for (Piece piece : blackPieces) {
+            int x = piece.getPositionx();
+            int y = piece.getPositiony();
+            //Image blackPawnImage = new Image(new FileInputStream("/Users/w/Downloads/checkers/src/main/java/pngS/blackpawn.png"));
+            //ImageView ivb = new ImageView(blackPawnImage); // blackPawnImage is the image of black pawn
+            //ivb.setX(x*50);
+            //ivb.setY(y*50);
+            //ivb.setFitHeight(50);
+            //ivb.setFitWidth(50);
+            Ellipse bchecker = new Ellipse(20,20);
+            bchecker.setCenterX(-25+(x)*50);
+            bchecker.setCenterY(-25+(y)*50);
+            bchecker.setStroke(Color.BEIGE);
+            bchecker.setStrokeWidth(2);
+            board.getChildren().add(bchecker);
+        }
+
+
         // Add the button container to the top of the board
-        root.getChildren().addAll(buttons, board);
+        root.getChildren().addAll(buttons, stackPane, whiteAndBlackCheckers);
 
 
         Scene scene = new Scene(root);//root=scene
         primaryStage.setScene(scene);//root=scene
         primaryStage.show();
     }
+
 }
 
 
