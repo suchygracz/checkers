@@ -22,7 +22,6 @@ public class WinServerThread {
                 Game g = new Game(firstClient, secondClient);
                 Thread gTh = new Thread(g);
                 gTh.start();
-//                 TO DO: Musi byc dokldnie dwoch klientow
             }
 
         } catch (IOException ex) {

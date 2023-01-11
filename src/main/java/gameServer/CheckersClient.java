@@ -16,7 +16,9 @@ import javafx.util.Pair;
 import onBoard.Pawn;
 import onBoard.Piece;
 
-import java.io.FileNotFoundException;
+import java.io.*;
+import java.net.Socket;
+import java.rmi.UnknownHostException;
 import java.util.Vector;
 
 public class CheckersClient extends Application{
@@ -32,6 +34,10 @@ public class CheckersClient extends Application{
     HBox buttons = new HBox();
     Pane whiteAndBlackCheckers = new Pane();
     StackPane stackPane = new StackPane();
+
+    Socket socket = null;
+    PrintWriter out = null;
+    BufferedReader in = null;
 
     Button russianGameButton = new Button("Russian Game");
     Button turkishGameButton = new Button("Turkish Game");
@@ -93,7 +99,7 @@ public class CheckersClient extends Application{
     public void start(Stage primaryStage) throws FileNotFoundException {
         stackPane.getChildren().addAll(board,whiteAndBlackCheckers);
         initializeBoard();
-        buttons.setPadding(new Insets(10, 10, 10, 10)); // top, right, bottom, left
+        buttons.setPadding(new Insets(10, 10, 10, 10));
         buttons.setSpacing(10);
         russianGameButton.setPrefWidth(120);
         turkishGameButton.setPrefWidth(120);
@@ -102,9 +108,12 @@ public class CheckersClient extends Application{
         buttons.getChildren().addAll(russianGameButton, turkishGameButton, englishGameButton);
         root.getChildren().addAll(buttons, stackPane, whiteAndBlackCheckers);
 
-        Scene scene = new Scene(root);//root=scene
-        primaryStage.setScene(scene);//root=scene
+        Scene scene = new Scene(root);
+        primaryStage.setScene(scene);
         primaryStage.show();
+
+        listenSocket();
+        receiveInitFromServer();
     }
 //    public void actionPerformed(ActionEvent event) {
 //        if (event.getSource() == board) {
@@ -117,39 +126,38 @@ public class CheckersClient extends Application{
 //        actualPlayer = player;
 //    }
 //
-//    public void listenSocket() {
-//        try {
-//            Socket socket = new Socket("localhost", 4444);
-//            // Inicjalizacja wysylania do serwera
-//            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-//            // Inicjalizacja odbierania z serwera
-//            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-//        } catch (UnknownHostException e) {
-//            System.out.println("Unknown host: localhost");
-//            System.exit(1);
-//        } catch (IOException e) {
-//            System.out.println("No I/O");
-//            System.exit(1);
-//        }
-//    }
+    public void listenSocket() {
+        try {
+            socket = new Socket("localhost", 4444);
+            // Inicjalizacja wysylania do serwera
+            out = new PrintWriter(socket.getOutputStream(), true);
+            // Inicjalizacja odbierania z serwera
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        } catch (UnknownHostException e) {
+            System.out.println("Unknown host: localhost");
+            System.exit(1);
+        } catch (IOException e) {
+            System.out.println("No I/O");
+            System.exit(1);
+        }
+    }
 
     /*
         Poczatkowe ustawienia klienta. Ustalenie ktory socket jest ktorym kliente
     */
-//    private void receiveInitFromServer() {
-//        try {
-//            player = Integer.parseInt(in.readLine());
-//            if (player== PLAYER1) {
-//                msg.setText("My Turn");
-//            } else {
-//                msg.setText("Opposite turn");
-//                send.setEnabled(false);
-//            }
-//        } catch (IOException e) {
-//            System.out.println("Read failed");
-//            System.exit(1);
-//        }
-//    }
+    private void receiveInitFromServer() {
+        try {
+            player = Integer.parseInt(in.readLine());
+            if (player== PLAYER1) {
+                board.setDisable(false);
+            } else {
+                board.setDisable(true);
+            }
+        } catch (IOException e) {
+            System.out.println("Read failed");
+            System.exit(1);
+        }
+    }
 //    private void startThread() {
 //        Thread gTh = new Thread(this);
 //        gTh.start();
@@ -166,23 +174,6 @@ public class CheckersClient extends Application{
 //        // Mozna zrobic w jednej metodzie. Zostawiam
 //        // dla potrzeb prezentacji
 //        // f(player);
-//    }
-//    void f(int iPlayer){
-//        while(true) {
-//            synchronized (this) {
-//                if (actualPlayer== iPlayer) {
-//                    try {
-//                        wait(10);
-//                    } catch (InterruptedException e) {
-//                    }
-//                }
-//                if (showing ==ACTIVE){
-//                    receive();
-//                    showing =NONACTIVE;
-//                }
-//                notifyAll();
-//            }
-//        }
 //    }
 }
 

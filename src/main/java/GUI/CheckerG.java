@@ -7,8 +7,8 @@ import onBoard.Piece;
 
 public class CheckerG extends Ellipse {
     final Piece.color color;
-    public CheckerG(double xSrodka, double ySrodka, double promienWOX, double promienWOY, Piece.color color){
-        super(xSrodka, ySrodka, promienWOX, promienWOY);
+    public CheckerG(double xCenter, double yCenter, double radiusWOX, double radiusWOY, Piece.color color){
+        super(xCenter, yCenter, radiusWOX, radiusWOY);
         setOnMouseReleased(new CheckerGEventHandler());
         this.color = color;
     }
