@@ -9,7 +9,6 @@ public class CheckerG extends Ellipse {
         super(xSrodka, ySrodka, promienWOX, promienWOY);
         setOnMouseDragged(new CheckerGEventHandler());
 
-
     }
     public boolean isHit(double x, double y){
         return getBoundsInLocal().contains(x, y);

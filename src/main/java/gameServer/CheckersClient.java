@@ -90,7 +90,8 @@ public class CheckersClient extends Application {
                 // Set the color of the tile
                 if ((row + col) % 2 == 0) {
                     rect.setFill(Color.WHITE);
-                } else {
+                }
+                else {
                     rect.setFill(Color.BLACK);
                 }
                 rect.setX(col*50);
