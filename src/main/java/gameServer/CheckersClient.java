@@ -1,23 +1,21 @@
 package gameServer;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import javafx.scene.control.Button;
 import javafx.util.Pair;
-import onBoard.Board;
 import onBoard.Pawn;
 import onBoard.Piece;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Vector;
 
@@ -37,9 +35,6 @@ public class CheckersClient extends Application {
                     if (i < 4) {
                         blackPieces.add(new Pawn(Piece.color.white, new Pair<Integer, Integer>(j, i)));
                     }
-
-
-
                     else if (i > 5) {
                         whitePieces.add(new Pawn(Piece.color.white, new Pair<Integer, Integer>(j, i)));
                     }
