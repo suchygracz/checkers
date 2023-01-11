@@ -31,9 +31,9 @@ public class CheckerG extends Ellipse {
             double dx = mouseEvent.getX() - x;
             double dy = mouseEvent.getY() - y;
 
-            if (CheckerG.isHit(x, y)) {
-                CheckerG.addX(dx);
-                CheckerG.addY(dy);
+            if (checkerG.isHit(x, y)) {
+                checkerG.addX(dx);
+                checkerG.addY(dy);
             }
             x += dx;
             y += dy;
