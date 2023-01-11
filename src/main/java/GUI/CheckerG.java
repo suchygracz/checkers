@@ -15,11 +15,13 @@ public class CheckerG extends Ellipse {
     }
 
     public void addX(double x){
-        setCenterX((getCenterX() + x) - );
+        int X = (int) (getCenterX() + x);
+        setCenterX((X / 50) * 50 + 25);
     }
 
     public void addY(double y){
-        setCenterY((getCenterY() + y) % 50);
+        int Y = (int) (getCenterY() + y);
+        setCenterY((Y / 50) * 50 + 25)  ;
     }
 
     class CheckerGEventHandler implements EventHandler<MouseEvent> {
