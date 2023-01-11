@@ -67,10 +67,6 @@ public class CheckersClient extends Application {
 
         // Add the buttons to the container
         buttons.getChildren().addAll(russianGameButton, turkishGameButton, englishGameButton);
-
-
-        // Add the button container to the top of the board
-
         // Add the tiles to the board
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
@@ -95,9 +91,6 @@ public class CheckersClient extends Application {
         for (Piece piece : whitePieces) {
             int x = piece.getPositionx();
             int y = piece.getPositiony();
-            //Ellipse wchecker = new Ellipse(20,20);
-            //wchecker.setCenterX(-25+(x)*50);//-50
-            //wchecker.setCenterY(-25+(y)*50);
             CheckerG whiteChecker = new CheckerG((-25+(x)*50),(-25+(y)*50),20,20, Piece.color.white);
             whiteChecker.setFill(Color.BEIGE);
             whiteChecker.setStroke(Color.DARKGRAY);
@@ -108,16 +101,7 @@ public class CheckersClient extends Application {
         for (Piece piece : blackPieces) {
             int x = piece.getPositionx();
             int y = piece.getPositiony();
-            //Image blackPawnImage = new Image(new FileInputStream("/Users/w/Downloads/checkers/src/main/java/pngS/blackpawn.png"));
-            //ImageView ivb = new ImageView(blackPawnImage); // blackPawnImage is the image of black pawn
-            //ivb.setX(x*50);
-            //ivb.setY(y*50);
-            //ivb.setFitHeight(50);
-            //ivb.setFitWidth(50);
             CheckerG blackChecker = new CheckerG((-25+(x)*50),(-25+(y)*50),20,20, Piece.color.black);
-            //Ellipse bchecker = new Ellipse(20,20);
-            //bchecker.setCenterX(-25+(x)*50);
-            //bchecker.setCenterY(-25+(y)*50);
             blackChecker.setStroke(Color.BEIGE);
             blackChecker.setStrokeWidth(2);
             board.getChildren().add(blackChecker);
