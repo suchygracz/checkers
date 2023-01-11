@@ -24,12 +24,15 @@ import onBoard.Board;
 import onBoard.Pawn;
 import onBoard.Piece;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.*;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Vector;
 
-public class CheckersClient extends Application {
+public class CheckersClient extends Application implements ActionListener, Runnable{
     public static void main(String[] args) {
         launch(args);
     }
@@ -38,6 +41,10 @@ public class CheckersClient extends Application {
     public void start(Stage primaryStage) throws FileNotFoundException {
         Vector<Piece> whitePieces = new Vector<>(12);
         Vector<Piece> blackPieces = new Vector<>(12);
+        final int PLAYER1 = 1;
+        final int PLAYER2 = 2;
+        int player;
+        private int actualPlayer = PLAYER1;
         for (int i = 1; i < 9; i++) {
             for (int j = 1; j < 9; j++) {
                 if ( (i + j) % 2 != 0 ) {
@@ -142,7 +149,85 @@ public class CheckersClient extends Application {
         primaryStage.setScene(scene);//root=scene
         primaryStage.show();
     }
+    public void actionPerformed(ActionEvent event) {
+        if (mouseEvent.getEventType() == MouseEvent.MOUSE_DRAGGED) {
+            send();
+        }
+    }
+    private void send(){
+        // Wysylanie do serwera
+        out.println(input.getText());
+        actualPlayer = player;
+    }
 
+    public void listenSocket() {
+        try {
+            Socket socket = new Socket("localhost", 4444);
+            // Inicjalizacja wysylania do serwera
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+            // Inicjalizacja odbierania z serwera
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        } catch (UnknownHostException e) {
+            System.out.println("Unknown host: localhost");
+            System.exit(1);
+        } catch (IOException e) {
+            System.out.println("No I/O");
+            System.exit(1);
+        }
+    }
+
+    /*
+        Poczatkowe ustawienia klienta. Ustalenie ktory socket jest ktorym kliente
+    */
+    private void receiveInitFromServer() {
+        try {
+            player = Integer.parseInt(in.readLine());
+            if (player== PLAYER1) {
+                msg.setText("My Turn");
+            } else {
+                msg.setText("Opposite turn");
+                send.setEnabled(false);
+            }
+        } catch (IOException e) {
+            System.out.println("Read failed");
+            System.exit(1);
+        }
+    }
+    private void startThread() {
+        Thread gTh = new Thread(this);
+        gTh.start();
+    }
+
+    @Override
+    public void run() {
+        if (player==PLAYER1) {
+            f(1);
+        }
+        else{
+            f(2);
+        }
+        // Mozna zrobic w jednej metodzie. Zostawiam
+        // dla potrzeb prezentacji
+        // f(player);
+    }
+    void f(int iPlayer){
+        while(true) {
+            synchronized (this) {
+                if (actualPlayer== iPlayer) {
+                    try {
+                        wait(10);
+                    } catch (InterruptedException e) {
+                    }
+                }
+                if (showing ==ACTIVE){
+                    receive();
+                    showing =NONACTIVE;
+                }
+                notifyAll();
+            }
+        }
+    }
 }
+
 
 
