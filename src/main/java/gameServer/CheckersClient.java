@@ -1,22 +1,32 @@
 package gameServer;
+import GUI.CheckerG;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
+import javafx.scene.control.Button;
 import javafx.util.Pair;
+import onBoard.Board;
 import onBoard.Pawn;
 import onBoard.Piece;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class CheckersClient extends Application {
@@ -35,6 +45,9 @@ public class CheckersClient extends Application {
                     if (i < 4) {
                         blackPieces.add(new Pawn(Piece.color.white, new Pair<Integer, Integer>(j, i)));
                     }
+
+
+
                     else if (i > 5) {
                         whitePieces.add(new Pawn(Piece.color.white, new Pair<Integer, Integer>(j, i)));
                     }
@@ -47,7 +60,6 @@ public class CheckersClient extends Application {
         StackPane stackPane = new StackPane();
         Pane board = new Pane();//grid
         Pane whiteAndBlackCheckers = new Pane();
-        //board.setPadding(new Insets(0,0,0,0));
         stackPane.getChildren().addAll(board,whiteAndBlackCheckers);
 
         HBox buttons = new HBox();
@@ -65,6 +77,8 @@ public class CheckersClient extends Application {
 
         // Add the buttons to the container
         buttons.getChildren().addAll(russianGameButton, turkishGameButton, englishGameButton);
+
+
         // Add the button container to the top of the board
 
         // Add the tiles to the board
@@ -90,13 +104,14 @@ public class CheckersClient extends Application {
         for (Piece piece : whitePieces) {
             int x = piece.getPositionx();
             int y = piece.getPositiony();
-            Ellipse wchecker = new Ellipse(20,20);
-            wchecker.setCenterX(-25+(x)*50);//-50
-            wchecker.setCenterY(-25+(y)*50);
-            wchecker.setFill(Color.BEIGE);
-            wchecker.setStroke(Color.DARKGRAY);
-            wchecker.setStrokeWidth(2);
-            board.getChildren().add(wchecker);
+            //Ellipse wchecker = new Ellipse(20,20);
+            //wchecker.setCenterX(-25+(x)*50);//-50
+            //wchecker.setCenterY(-25+(y)*50);
+            CheckerG whiteChecker = new CheckerG((-25+(x)*50),(-25+(y)*50),20,20);
+            whiteChecker.setFill(Color.BEIGE);
+            whiteChecker.setStroke(Color.DARKGRAY);
+            whiteChecker.setStrokeWidth(2);
+            board.getChildren().add(whiteChecker);
         }
 
         for (Piece piece : blackPieces) {
@@ -108,12 +123,13 @@ public class CheckersClient extends Application {
             //ivb.setY(y*50);
             //ivb.setFitHeight(50);
             //ivb.setFitWidth(50);
-            Ellipse bchecker = new Ellipse(20,20);
-            bchecker.setCenterX(-25+(x)*50);
-            bchecker.setCenterY(-25+(y)*50);
-            bchecker.setStroke(Color.BEIGE);
-            bchecker.setStrokeWidth(2);
-            board.getChildren().add(bchecker);
+            CheckerG blackChecker = new CheckerG((-25+(x)*50),(-25+(y)*50),20,20);
+            //Ellipse bchecker = new Ellipse(20,20);
+            //bchecker.setCenterX(-25+(x)*50);
+            //bchecker.setCenterY(-25+(y)*50);
+            blackChecker.setStroke(Color.BEIGE);
+            blackChecker.setStrokeWidth(2);
+            board.getChildren().add(blackChecker);
         }
 
 

@@ -1,6 +1,12 @@
 package factory;
 
 public class FactoryProvider {
-    //do zaimplementowania poźniej w odpowiedniej klasie
+    public static AbstractFactory getFactory(String choice){
+
+        if("AbstractGame".equalsIgnoreCase(choice)){
+            return new RulesFactory();
+        }
+        return null;
+    }
 
 }
