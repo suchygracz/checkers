@@ -1,6 +1,5 @@
 package gameServer;
 
-import checkersRules.AbstractGame;
 import onBoard.Board;
 
 import java.io.*;
@@ -11,7 +10,6 @@ public class Game implements Runnable{
     private Socket firstPlayer;
     private Socket secondPlayer;
     private Board board = new Board();
-    private final AbstractGame gameType;
 
     InputStream inputFirstPlayer;
     BufferedReader bufforFirstPlayer;
@@ -22,10 +20,9 @@ public class Game implements Runnable{
     OutputStream outputSecondPlayer;
     PrintWriter printerSecondPlayer;
 
-    public Game(Socket firstPlayer, Socket secondPlayer, AbstractGame gameType){
+    public Game(Socket firstPlayer, Socket secondPlayer){
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
-        this.gameType = gameType;
     }
     @Override
     public void run() {

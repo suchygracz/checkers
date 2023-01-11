@@ -1,10 +1,8 @@
 package gameServer;
 
-import checkersRules.AbstractGame;
-import checkersRules.ClassicGame;
-
-import java.io.*;
-import java.net.*;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 
 public class WinServerThread {
@@ -21,10 +19,10 @@ public class WinServerThread {
                 Socket secondClient = serverSocket.accept();
                 System.out.println("Second client connected");
 
-                Game g = new Game(firstClient, secondClient, gameType);
+                Game g = new Game(firstClient, secondClient);
                 Thread gTh = new Thread(g);
                 gTh.start();
-                // TO DO: Musi byc dokldnie dwoch klientow
+//                 TO DO: Musi byc dokldnie dwoch klientow
             }
 
         } catch (IOException ex) {

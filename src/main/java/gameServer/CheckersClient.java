@@ -20,60 +20,12 @@ import java.io.FileNotFoundException;
 import java.util.Vector;
 
 public class CheckersClient extends Application {
-    public static void main(String[] args) {
-        launch(args);
-    }
 
-    @Override
-    public void start(Stage primaryStage) throws FileNotFoundException {
-        Vector<Piece> whitePieces = new Vector<>(12);
-        Vector<Piece> blackPieces = new Vector<>(12);
-        for (int i = 1; i < 9; i++) {
-            for (int j = 1; j < 9; j++) {
-                if ( (i + j) % 2 != 0 ) {
-
-                    if (i < 4) {
-                        blackPieces.add(new Pawn(Piece.color.white, new Pair<Integer, Integer>(j, i)));
-                    }
-
-
-
-                    else if (i > 5) {
-                        whitePieces.add(new Pawn(Piece.color.white, new Pair<Integer, Integer>(j, i)));
-                    }
-
-            }
-        }
-        }
-
-        VBox root = new VBox();
-        StackPane stackPane = new StackPane();
-        Pane board = new Pane();//grid
-        Pane whiteAndBlackCheckers = new Pane();
-        stackPane.getChildren().addAll(board,whiteAndBlackCheckers);
-
-        HBox buttons = new HBox();
-        buttons.setPadding(new Insets(10, 10, 10, 10)); // top, right, bottom, left
-        buttons.setSpacing(10);
-
-        // Create the buttons
-        Button russianGameButton = new Button("Russian Game");
-        Button turkishGameButton = new Button("Turkish Game");
-        Button englishGameButton = new Button("English Game");
-        russianGameButton.setPrefWidth(120);
-        turkishGameButton.setPrefWidth(120);
-        englishGameButton.setPrefWidth(120);
-
-
-        // Add the buttons to the container
-        buttons.getChildren().addAll(russianGameButton, turkishGameButton, englishGameButton);
-        // Add the tiles to the board
+    private void initializeBoard(Vector<Piece> whitePieces, Vector<Piece> blackPieces, Pane board)
+    {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
-                // Create a rectangle to represent the tile
                 Rectangle rect = new Rectangle(50, 50);
-
-                // Set the color of the tile
                 if ((row + col) % 2 == 0) {
                     rect.setFill(Color.WHITE);
                 }
@@ -82,9 +34,21 @@ public class CheckersClient extends Application {
                 }
                 rect.setX(col*50);
                 rect.setY(row*50);
+                board.getChildren().add(rect);
+            }
+        }
 
-                // Add the rectangle to the board
-                board.getChildren().add(rect);// board.add(rect, col, row);
+        for (int i = 1; i < 9; i++) {
+            for (int j = 1; j < 9; j++) {
+                if ( (i + j) % 2 != 0 )
+                {
+                    if (i < 4) {
+                        blackPieces.add(new Pawn(Piece.color.white, new Pair<Integer, Integer>(j, i)));
+                    }
+                    else if (i > 5) {
+                        whitePieces.add(new Pawn(Piece.color.white, new Pair<Integer, Integer>(j, i)));
+                    }
+                }
             }
         }
 
@@ -106,11 +70,36 @@ public class CheckersClient extends Application {
             blackChecker.setStrokeWidth(2);
             board.getChildren().add(blackChecker);
         }
+    }
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+    @Override
+    public void start(Stage primaryStage) throws FileNotFoundException {
+        Vector<Piece> whitePieces = new Vector<>(12);
+        Vector<Piece> blackPieces = new Vector<>(12);
 
-        // Add the button container to the top of the board
+        VBox root = new VBox();
+        StackPane stackPane = new StackPane();
+        Pane board = new Pane();//grid
+        Pane whiteAndBlackCheckers = new Pane();
+        stackPane.getChildren().addAll(board,whiteAndBlackCheckers);
+        initializeBoard(whitePieces, blackPieces, board);
+        HBox buttons = new HBox();
+        buttons.setPadding(new Insets(10, 10, 10, 10)); // top, right, bottom, left
+        buttons.setSpacing(10);
+
+        // Create the buttons
+        Button russianGameButton = new Button("Russian Game");
+        Button turkishGameButton = new Button("Turkish Game");
+        Button englishGameButton = new Button("English Game");
+        russianGameButton.setPrefWidth(120);
+        turkishGameButton.setPrefWidth(120);
+        englishGameButton.setPrefWidth(120);
+
+        buttons.getChildren().addAll(russianGameButton, turkishGameButton, englishGameButton);
         root.getChildren().addAll(buttons, stackPane, whiteAndBlackCheckers);
-
 
         Scene scene = new Scene(root);//root=scene
         primaryStage.setScene(scene);//root=scene
