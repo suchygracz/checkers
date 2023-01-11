@@ -1,32 +1,22 @@
 package gameServer;
-import GUI.CheckerG;
 
+import GUI.CheckerG;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Point2D;
-import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Ellipse;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
-import javafx.stage.Stage;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 import javafx.util.Pair;
-import onBoard.Board;
 import onBoard.Pawn;
 import onBoard.Piece;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.Vector;
 
 public class CheckersClient extends Application {
@@ -108,7 +98,7 @@ public class CheckersClient extends Application {
             //Ellipse wchecker = new Ellipse(20,20);
             //wchecker.setCenterX(-25+(x)*50);//-50
             //wchecker.setCenterY(-25+(y)*50);
-            CheckerG whiteChecker = new CheckerG((-25+(x)*50),(-25+(y)*50),20,20);
+            CheckerG whiteChecker = new CheckerG((-25+(x)*50),(-25+(y)*50),20,20, Piece.color.white);
             whiteChecker.setFill(Color.BEIGE);
             whiteChecker.setStroke(Color.DARKGRAY);
             whiteChecker.setStrokeWidth(2);
@@ -124,7 +114,7 @@ public class CheckersClient extends Application {
             //ivb.setY(y*50);
             //ivb.setFitHeight(50);
             //ivb.setFitWidth(50);
-            CheckerG blackChecker = new CheckerG((-25+(x)*50),(-25+(y)*50),20,20);
+            CheckerG blackChecker = new CheckerG((-25+(x)*50),(-25+(y)*50),20,20, Piece.color.black);
             //Ellipse bchecker = new Ellipse(20,20);
             //bchecker.setCenterX(-25+(x)*50);
             //bchecker.setCenterY(-25+(y)*50);

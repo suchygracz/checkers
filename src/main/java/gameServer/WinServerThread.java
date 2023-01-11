@@ -13,7 +13,6 @@ public class WinServerThread {
 
             System.out.println("Server is listening on port 4444");
 
-            final AbstractGame gameType = new ClassicGame();
             while (true) {
                 Socket firstClient = serverSocket.accept();
                 System.out.println("First client connected");

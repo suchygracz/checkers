@@ -3,12 +3,14 @@ package GUI;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Ellipse;
+import onBoard.Piece;
 
 public class CheckerG extends Ellipse {
-    public CheckerG(double xSrodka, double ySrodka, double promienWOX, double promienWOY){
+    final Piece.color color;
+    public CheckerG(double xSrodka, double ySrodka, double promienWOX, double promienWOY, Piece.color color){
         super(xSrodka, ySrodka, promienWOX, promienWOY);
         setOnMouseReleased(new CheckerGEventHandler());
-
+        this.color = color;
     }
     public boolean isHit(double x, double y){
         return getBoundsInLocal().contains(x, y);
