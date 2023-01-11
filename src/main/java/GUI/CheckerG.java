@@ -7,7 +7,7 @@ import javafx.scene.shape.Ellipse;
 public class CheckerG extends Ellipse {
     public CheckerG(double xSrodka, double ySrodka, double promienWOX, double promienWOY){
         super(xSrodka, ySrodka, promienWOX, promienWOY);
-        setOnMouseDragged(new CheckerGEventHandler());
+        setOnMouseReleased(new CheckerGEventHandler());
 
     }
     public boolean isHit(double x, double y){
@@ -15,11 +15,11 @@ public class CheckerG extends Ellipse {
     }
 
     public void addX(double x){
-        setCenterX(getCenterX() + x);
+        setCenterX((getCenterX() + x) - );
     }
 
     public void addY(double y){
-        setCenterY(getCenterY() + y);
+        setCenterY((getCenterY() + y) % 50);
     }
 
     class CheckerGEventHandler implements EventHandler<MouseEvent> {
@@ -42,7 +42,7 @@ public class CheckerG extends Ellipse {
         public void handle(MouseEvent mouseEvent) {
             checkerG = (CheckerG) mouseEvent.getSource();
 
-            if (mouseEvent.getEventType() == MouseEvent.MOUSE_DRAGGED) {
+            if (mouseEvent.getEventType() == MouseEvent.MOUSE_RELEASED) {
                 moveChecker(mouseEvent);
             }
 
