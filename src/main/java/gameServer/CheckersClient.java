@@ -15,20 +15,28 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import onBoard.Pawn;
 import onBoard.Piece;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.*;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Vector;
 
 import java.io.FileNotFoundException;
 import java.util.Vector;
 
-public class CheckersClient extends Application implements ActionListener, Runnable {
+public class CheckersClient extends Application{
+    Vector<Piece> whitePieces = new Vector<>(12);
+    Vector<Piece> blackPieces = new Vector<>(12);
+    final int PLAYER1 = 1;
+    final int PLAYER2 = 2;
+    int player;
+    final int actualPlayer = PLAYER1;
 
-    private void initializeBoard(Vector<Piece> whitePieces, Vector<Piece> blackPieces, Pane board)
+    VBox root = new VBox();
+    Pane board = new Pane();
+    HBox buttons = new HBox();
+    Pane whiteAndBlackCheckers = new Pane();
+    StackPane stackPane = new StackPane();
+
+    Button russianGameButton = new Button("Russian Game");
+    Button turkishGameButton = new Button("Turkish Game");
+    Button englishGameButton = new Button("English Game");
+    private void initializeBoard()
     {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
@@ -83,28 +91,10 @@ public class CheckersClient extends Application implements ActionListener, Runna
     }
     @Override
     public void start(Stage primaryStage) throws FileNotFoundException {
-        Vector<Piece> whitePieces = new Vector<>(12);
-        Vector<Piece> blackPieces = new Vector<>(12);
-
-        final int PLAYER1 = 1;
-        final int PLAYER2 = 2;
-        int player;
-        final int actualPlayer = PLAYER1;
-
-        VBox root = new VBox();
-        StackPane stackPane = new StackPane();
-        Pane board = new Pane();//grid
-        Pane whiteAndBlackCheckers = new Pane();
         stackPane.getChildren().addAll(board,whiteAndBlackCheckers);
-        initializeBoard(whitePieces, blackPieces, board);
-        HBox buttons = new HBox();
+        initializeBoard();
         buttons.setPadding(new Insets(10, 10, 10, 10)); // top, right, bottom, left
         buttons.setSpacing(10);
-
-        // Create the buttons
-        Button russianGameButton = new Button("Russian Game");
-        Button turkishGameButton = new Button("Turkish Game");
-        Button englishGameButton = new Button("English Game");
         russianGameButton.setPrefWidth(120);
         turkishGameButton.setPrefWidth(120);
         englishGameButton.setPrefWidth(120);
@@ -116,84 +106,84 @@ public class CheckersClient extends Application implements ActionListener, Runna
         primaryStage.setScene(scene);//root=scene
         primaryStage.show();
     }
-    public void actionPerformed(ActionEvent event) {
-        if (mouseEvent.getEventType() == MouseEvent.MOUSE_DRAGGED) {
-            send();
-        }
-    }
-    private void send(){
-        // Wysylanie do serwera
-        out.println(input.getText());
-        actualPlayer = player;
-    }
-
-    public void listenSocket() {
-        try {
-            Socket socket = new Socket("localhost", 4444);
-            // Inicjalizacja wysylania do serwera
-            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-            // Inicjalizacja odbierania z serwera
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        } catch (UnknownHostException e) {
-            System.out.println("Unknown host: localhost");
-            System.exit(1);
-        } catch (IOException e) {
-            System.out.println("No I/O");
-            System.exit(1);
-        }
-    }
+//    public void actionPerformed(ActionEvent event) {
+//        if (event.getSource() == board) {
+//            send();
+//        }
+//    }
+//    private void send(){
+//        // Wysylanie do serwera
+//        out.println(input.getText());
+//        actualPlayer = player;
+//    }
+//
+//    public void listenSocket() {
+//        try {
+//            Socket socket = new Socket("localhost", 4444);
+//            // Inicjalizacja wysylania do serwera
+//            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+//            // Inicjalizacja odbierania z serwera
+//            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+//        } catch (UnknownHostException e) {
+//            System.out.println("Unknown host: localhost");
+//            System.exit(1);
+//        } catch (IOException e) {
+//            System.out.println("No I/O");
+//            System.exit(1);
+//        }
+//    }
 
     /*
         Poczatkowe ustawienia klienta. Ustalenie ktory socket jest ktorym kliente
     */
-    private void receiveInitFromServer() {
-        try {
-            player = Integer.parseInt(in.readLine());
-            if (player== PLAYER1) {
-                msg.setText("My Turn");
-            } else {
-                msg.setText("Opposite turn");
-                send.setEnabled(false);
-            }
-        } catch (IOException e) {
-            System.out.println("Read failed");
-            System.exit(1);
-        }
-    }
-    private void startThread() {
-        Thread gTh = new Thread(this);
-        gTh.start();
-    }
+//    private void receiveInitFromServer() {
+//        try {
+//            player = Integer.parseInt(in.readLine());
+//            if (player== PLAYER1) {
+//                msg.setText("My Turn");
+//            } else {
+//                msg.setText("Opposite turn");
+//                send.setEnabled(false);
+//            }
+//        } catch (IOException e) {
+//            System.out.println("Read failed");
+//            System.exit(1);
+//        }
+//    }
+//    private void startThread() {
+//        Thread gTh = new Thread(this);
+//        gTh.start();
+//    }
 
-    @Override
-    public void run() {
-        if (player==PLAYER1) {
-            f(1);
-        }
-        else{
-            f(2);
-        }
-        // Mozna zrobic w jednej metodzie. Zostawiam
-        // dla potrzeb prezentacji
-        // f(player);
-    }
-    void f(int iPlayer){
-        while(true) {
-            synchronized (this) {
-                if (actualPlayer== iPlayer) {
-                    try {
-                        wait(10);
-                    } catch (InterruptedException e) {
-                    }
-                }
-                if (showing ==ACTIVE){
-                    receive();
-                    showing =NONACTIVE;
-                }
-                notifyAll();
-            }
-        }
-    }
+//    @Override
+//    public void run() {
+//        if (player==PLAYER1) {
+//            f(1);
+//        }
+//        else{
+//            f(2);
+//        }
+//        // Mozna zrobic w jednej metodzie. Zostawiam
+//        // dla potrzeb prezentacji
+//        // f(player);
+//    }
+//    void f(int iPlayer){
+//        while(true) {
+//            synchronized (this) {
+//                if (actualPlayer== iPlayer) {
+//                    try {
+//                        wait(10);
+//                    } catch (InterruptedException e) {
+//                    }
+//                }
+//                if (showing ==ACTIVE){
+//                    receive();
+//                    showing =NONACTIVE;
+//                }
+//                notifyAll();
+//            }
+//        }
+//    }
 }
 
 
