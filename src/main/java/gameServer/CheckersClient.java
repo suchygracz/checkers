@@ -12,8 +12,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import javafx.util.Pair;
-import onBoard.Pawn;
 import onBoard.Piece;
 
 import java.io.*;
@@ -21,7 +19,7 @@ import java.net.Socket;
 import java.rmi.UnknownHostException;
 import java.util.Vector;
 
-public class CheckersClient extends Application{
+public class CheckersClient extends Application implements Runnable{
     Vector<Piece> whitePieces = new Vector<>(12);
     Vector<Piece> blackPieces = new Vector<>(12);
 
@@ -59,35 +57,22 @@ public class CheckersClient extends Application{
 
         for (int i = 1; i < 9; i++) {
             for (int j = 1; j < 9; j++) {
-                if ( (i + j) % 2 != 0 )
-                {
+                if ( (i + j) % 2 != 0 ){
                     if (i < 4) {
-                        blackPieces.add(new Pawn(Piece.color.white, new Pair<Integer, Integer>(j, i)));
+                        CheckerG blackChecker = new CheckerG((-25+(j)*50),(-25+(i)*50),20,20, Piece.color.black);
+                        blackChecker.setStroke(Color.BEIGE);
+                        blackChecker.setStrokeWidth(2);
+                        board.getChildren().add(blackChecker);
                     }
                     else if (i > 5) {
-                        whitePieces.add(new Pawn(Piece.color.white, new Pair<Integer, Integer>(j, i)));
+                        CheckerG whiteChecker = new CheckerG((-25+(j)*50),(-25+(i)*50),20,20, Piece.color.white);
+                        whiteChecker.setFill(Color.BEIGE);
+                        whiteChecker.setStroke(Color.DARKGRAY);
+                        whiteChecker.setStrokeWidth(2);
+                        board.getChildren().add(whiteChecker);
                     }
                 }
             }
-        }
-
-        for (Piece piece : whitePieces) {
-            int x = piece.getPositionx();
-            int y = piece.getPositiony();
-            CheckerG whiteChecker = new CheckerG((-25+(x)*50),(-25+(y)*50),20,20, Piece.color.white);
-            whiteChecker.setFill(Color.BEIGE);
-            whiteChecker.setStroke(Color.DARKGRAY);
-            whiteChecker.setStrokeWidth(2);
-            board.getChildren().add(whiteChecker);
-        }
-
-        for (Piece piece : blackPieces) {
-            int x = piece.getPositionx();
-            int y = piece.getPositiony();
-            CheckerG blackChecker = new CheckerG((-25+(x)*50),(-25+(y)*50),20,20, Piece.color.black);
-            blackChecker.setStroke(Color.BEIGE);
-            blackChecker.setStrokeWidth(2);
-            board.getChildren().add(blackChecker);
         }
     }
     public static void main(String[] args) {
@@ -112,8 +97,22 @@ public class CheckersClient extends Application{
 
         listenSocket();
         receiveInitFromServer();
+        startThread();
     }
-    public void listenSocket() {
+
+    private void startThread() {
+        Thread gTh = new Thread(this);
+        gTh.start();
+    }
+    @Override
+    public void run()
+    {
+        while(true)
+        {
+
+        }
+    }
+    private void listenSocket() {
         try {
             socket = new Socket("localhost", 4444);
             out = new PrintWriter(socket.getOutputStream(), true);
