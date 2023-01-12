@@ -24,10 +24,8 @@ import java.util.Vector;
 public class CheckersClient extends Application{
     Vector<Piece> whitePieces = new Vector<>(12);
     Vector<Piece> blackPieces = new Vector<>(12);
-    final int PLAYER1 = 1;
-    final int PLAYER2 = 2;
+
     int player;
-    final int actualPlayer = PLAYER1;
 
     VBox root = new VBox();
     Pane board = new Pane();
@@ -115,23 +113,10 @@ public class CheckersClient extends Application{
         listenSocket();
         receiveInitFromServer();
     }
-//    public void actionPerformed(ActionEvent event) {
-//        if (event.getSource() == board) {
-//            send();
-//        }
-//    }
-//    private void send(){
-//        // Wysylanie do serwera
-//        out.println(input.getText());
-//        actualPlayer = player;
-//    }
-//
     public void listenSocket() {
         try {
             socket = new Socket("localhost", 4444);
-            // Inicjalizacja wysylania do serwera
             out = new PrintWriter(socket.getOutputStream(), true);
-            // Inicjalizacja odbierania z serwera
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         } catch (UnknownHostException e) {
             System.out.println("Unknown host: localhost");
@@ -141,40 +126,15 @@ public class CheckersClient extends Application{
             System.exit(1);
         }
     }
-
-    /*
-        Poczatkowe ustawienia klienta. Ustalenie ktory socket jest ktorym kliente
-    */
     private void receiveInitFromServer() {
         try {
             player = Integer.parseInt(in.readLine());
-            if (player== PLAYER1) {
-                board.setDisable(false);
-            } else {
-                board.setDisable(true);
-            }
+            board.setDisable(player != 1);
         } catch (IOException e) {
             System.out.println("Read failed");
             System.exit(1);
         }
     }
-//    private void startThread() {
-//        Thread gTh = new Thread(this);
-//        gTh.start();
-//    }
-
-//    @Override
-//    public void run() {
-//        if (player==PLAYER1) {
-//            f(1);
-//        }
-//        else{
-//            f(2);
-//        }
-//        // Mozna zrobic w jednej metodzie. Zostawiam
-//        // dla potrzeb prezentacji
-//        // f(player);
-//    }
 }
 
 
