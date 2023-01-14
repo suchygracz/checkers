@@ -26,12 +26,7 @@ import java.util.Vector;
 
 public class CheckersClient extends Application implements Runnable{
 
-    int player;
-    public final static int ACTIVE = 0;
-    public final static int NONACTIVE = 1;
-    private final static int actualPlayer = 1;
-
-    private static int showing = ACTIVE;
+    private int player;
 
     VBox root = new VBox();
     Pane board = new Pane();
@@ -68,14 +63,14 @@ public class CheckersClient extends Application implements Runnable{
             for (int j = 1; j < 9; j++) {
                 if ( (i + j) % 2 != 0 ){
                     if (i < 4) {
-                        CheckerG blackChecker = new CheckerG((-25+(j)*50),(-25+(i)*50),20,20, Piece.color.black, out);
+                        CheckerG blackChecker = new CheckerG((-25+(j)*50),(-25+(i)*50),20,20, Piece.color.black, out, this);
                         blackChecker.setStroke(Color.BEIGE);
                         blackChecker.setStrokeWidth(2);
                         board.getChildren().add(blackChecker);
                         whiteAndBlackCheckers.add(blackChecker);
                     }
                     else if (i > 5) {
-                        CheckerG whiteChecker = new CheckerG((-25+(j)*50),(-25+(i)*50),20,20, Piece.color.white, out);
+                        CheckerG whiteChecker = new CheckerG((-25+(j)*50),(-25+(i)*50),20,20, Piece.color.white, out, this);
                         whiteChecker.setFill(Color.BEIGE);
                         whiteChecker.setStroke(Color.DARKGRAY);
                         whiteChecker.setStrokeWidth(2);
@@ -106,6 +101,7 @@ public class CheckersClient extends Application implements Runnable{
 
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
         primaryStage.show();
 
         receiveInitFromServer();
@@ -129,32 +125,19 @@ public class CheckersClient extends Application implements Runnable{
     private void f1(){
         while(true) {
             synchronized (this) {
-                if (actualPlayer == 1) {
-                    try {
-                        wait(10);
-                    } catch (InterruptedException e) {}
-                }
-                if (showing == ACTIVE){
+                if (board.isDisable()){
                     receive();
-                    showing = NONACTIVE;
                 }
                 notifyAll();
             }
         }
     }
 
-    /// Metoda uruchamiana w run dla PLAYER2
     private void f2(){
         while(true) {
             synchronized (this) {
-                if (actualPlayer == 2) {
-                    try {
-                        wait(10);
-                    } catch (InterruptedException e) {}
-                }
-                if (showing == ACTIVE){
+                if (board.isDisable()){
                     receive();
-                    showing = NONACTIVE;
                 }
                 notifyAll();
             }
@@ -174,6 +157,11 @@ public class CheckersClient extends Application implements Runnable{
         }
         catch (IOException e) {
             System.out.println("Read failed"); System.exit(1);}
+    }
+
+    public void changeState(){
+        System.out.println("heh");
+        board.setDisable(true);
     }
 
     private CheckerG findChecker(Pair<Integer, Integer> pos)

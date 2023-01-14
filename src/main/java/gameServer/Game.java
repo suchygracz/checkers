@@ -1,5 +1,6 @@
 package gameServer;
 
+import javafx.util.Pair;
 import onBoard.Board;
 
 import java.io.*;
@@ -7,9 +8,9 @@ import java.net.Socket;
 
 public class Game implements Runnable{
 
-    private Socket firstPlayer;
-    private Socket secondPlayer;
-    private Board board = new Board();
+    private final Socket firstPlayer;
+    private final Socket secondPlayer;
+    private final Board board = new Board();
 
     InputStream inputFirstPlayer;
     BufferedReader bufforFirstPlayer;
@@ -39,7 +40,7 @@ public class Game implements Runnable{
                 OldY = Integer.parseInt(bufforFirstPlayer.readLine());
                 NewY = Integer.parseInt(bufforFirstPlayer.readLine());
 
-                //board.movePiece(board.getWhitePiece(new Pair<>((OldX - 25)/50, (OldY-25)/50)), new Pair<>((NewX-25)/50, (NewY-25)/50));
+                board.movePiece(board.getWhitePiece(new Pair<>((OldX + 25)/50, (OldY + 25)/50)), new Pair<>((NewX + 25)/50, (NewY + 25)/50));
                 System.out.println(OldX + " " + OldY + " ---> " + NewX + " " + NewY);
 
                 printerSecondPlayer.println(OldX);
@@ -52,7 +53,7 @@ public class Game implements Runnable{
                 OldY = Integer.parseInt(bufforSecondPlayer.readLine());
                 NewY = Integer.parseInt(bufforSecondPlayer.readLine());
 
-                //board.movePiece(board.getBlackPiece(new Pair<>((OldX - 25)/50, (OldY-25)/50)), new Pair<>((NewX-25)/50, (NewY-25)/50));
+                board.movePiece(board.getBlackPiece(new Pair<>((OldX + 25)/50, (OldY + 25)/50)), new Pair<>((NewX + 25)/50, (NewY + 25)/50));
                 System.out.println(OldX + " " + OldY + " ---> " + NewX + " " + NewY);
 
                 printerFirstPlayer.println(OldX);
@@ -66,11 +67,6 @@ public class Game implements Runnable{
             System.err.println("ex");
         }
     }
-
-    private void sendMove(DataOutputStream out, String text) throws IOException {
-        out.writeChars(text);
-    }
-
     private void initializeInputAndOutput() throws IOException {
         inputFirstPlayer = firstPlayer.getInputStream();
         bufforFirstPlayer = new BufferedReader(new InputStreamReader(inputFirstPlayer));

@@ -1,5 +1,6 @@
 package GUI;
 
+import gameServer.CheckersClient;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Ellipse;
@@ -10,12 +11,14 @@ import java.io.PrintWriter;
 
 public class CheckerG extends Ellipse {
     final Piece.color color;
-    PrintWriter out;
-    public CheckerG(double xCenter, double yCenter, double radiusWOX, double radiusWOY, Piece.color color, PrintWriter out){
+    private final CheckersClient client;
+    private final PrintWriter out;
+    public CheckerG(double xCenter, double yCenter, double radiusWOX, double radiusWOY, Piece.color color, PrintWriter out, CheckersClient client){
         super(xCenter, yCenter, radiusWOX, radiusWOY);
         setOnMouseReleased(new CheckerGEventHandler());
         this.out = out;
         this.color = color;
+        this.client = client;
     }
     public Pair<Integer, Integer> getPos()
     {
@@ -56,6 +59,7 @@ public class CheckerG extends Ellipse {
             if (checkerG.isHit(x, y)) {
                 checkerG.addX(dx);
                 checkerG.addY(dy);
+                client.changeState();
             }
             x += dx;
             y += dy;
