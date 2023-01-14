@@ -11,6 +11,7 @@ public class Game implements Runnable{
     private final Socket firstPlayer;
     private final Socket secondPlayer;
     private final Board board = new Board();
+    private int OldX, OldY, NewX, NewY;
 
     InputStream inputFirstPlayer;
     BufferedReader bufforFirstPlayer;
@@ -33,39 +34,66 @@ public class Game implements Runnable{
             printerFirstPlayer.println("1");
             printerSecondPlayer.println("2");
 
-            int OldX, OldY, NewX, NewY;
             do {
-                OldX = Integer.parseInt(bufforFirstPlayer.readLine());
-                NewX = Integer.parseInt(bufforFirstPlayer.readLine());
-                OldY = Integer.parseInt(bufforFirstPlayer.readLine());
-                NewY = Integer.parseInt(bufforFirstPlayer.readLine());
-
-                board.movePiece(board.getWhitePiece(new Pair<>((OldX + 25)/50, (OldY + 25)/50)), new Pair<>((NewX + 25)/50, (NewY + 25)/50));
-                System.out.println(OldX + " " + OldY + " ---> " + NewX + " " + NewY);
-
-                printerSecondPlayer.println(OldX);
-                printerSecondPlayer.println(NewX);
-                printerSecondPlayer.println(OldY);
-                printerSecondPlayer.println(NewY);
-
-                OldX = Integer.parseInt(bufforSecondPlayer.readLine());
-                NewX = Integer.parseInt(bufforSecondPlayer.readLine());
-                OldY = Integer.parseInt(bufforSecondPlayer.readLine());
-                NewY = Integer.parseInt(bufforSecondPlayer.readLine());
-
-                board.movePiece(board.getBlackPiece(new Pair<>((OldX + 25)/50, (OldY + 25)/50)), new Pair<>((NewX + 25)/50, (NewY + 25)/50));
-                System.out.println(OldX + " " + OldY + " ---> " + NewX + " " + NewY);
-
-                printerFirstPlayer.println(OldX);
-                printerFirstPlayer.println(NewX);
-                printerFirstPlayer.println(OldY);
-                printerFirstPlayer.println(NewY);
-
+                whiteSequence();
+                blackSequence();
             } while (true);
 
         } catch (IOException ex) {
             System.err.println("ex");
         }
+    }
+    private void takeSecondPlayerMove() throws IOException {
+        OldX = Integer.parseInt(bufforSecondPlayer.readLine());
+        NewX = Integer.parseInt(bufforSecondPlayer.readLine());
+        OldY = Integer.parseInt(bufforSecondPlayer.readLine());
+        NewY = Integer.parseInt(bufforSecondPlayer.readLine());
+    }
+    private void takeFirstPlayerMove() throws IOException {
+        OldX = Integer.parseInt(bufforFirstPlayer.readLine());
+        NewX = Integer.parseInt(bufforFirstPlayer.readLine());
+        OldY = Integer.parseInt(bufforFirstPlayer.readLine());
+        NewY = Integer.parseInt(bufforFirstPlayer.readLine());
+    }
+    private void sendMoveToFirstPlayer()
+    {
+        printerFirstPlayer.println(OldX);
+        printerFirstPlayer.println(NewX);
+        printerFirstPlayer.println(OldY);
+        printerFirstPlayer.println(NewY);
+    }
+    private void sendMoveToSecondPlayer()
+    {
+        printerSecondPlayer.println(OldX);
+        printerSecondPlayer.println(NewX);
+        printerSecondPlayer.println(OldY);
+        printerSecondPlayer.println(NewY);
+    }
+    private boolean isWhiteMovePossible()
+    {
+        return board.movePiece(board.getWhitePiece(new Pair<>((OldX + 25)/50, (OldY + 25)/50)), new Pair<>((NewX + 25)/50, (NewY + 25)/50));
+    }
+    private boolean isBlackMovePossible()
+    {
+        return board.movePiece(board.getBlackPiece(new Pair<>((OldX + 25)/50, (OldY + 25)/50)), new Pair<>((NewX + 25)/50, (NewY + 25)/50));
+    }
+    private void whiteSequence() throws IOException {
+        takeFirstPlayerMove();
+        while(!isWhiteMovePossible())
+        {
+            takeFirstPlayerMove();
+        }
+        System.out.println(OldX + " " + OldY + " ---> " + NewX + " " + NewY);
+        sendMoveToSecondPlayer();
+    }
+    private void blackSequence() throws IOException {
+        takeSecondPlayerMove();
+        while(!isBlackMovePossible())
+        {
+            takeSecondPlayerMove();
+        }
+        System.out.println(OldX + " " + OldY + " ---> " + NewX + " " + NewY);
+        sendMoveToFirstPlayer();
     }
     private void initializeInputAndOutput() throws IOException {
         inputFirstPlayer = firstPlayer.getInputStream();
