@@ -56,13 +56,13 @@ public class CheckerG extends Ellipse {
         public void moveChecker(MouseEvent mouseEvent) {
             double dx = mouseEvent.getX() - x;
             double dy = mouseEvent.getY() - y;
-            if (checkerG.isHit(x, y)) {
+            x += dx;
+            y += dy;
+            if (checkerG.isHit(x - dx, y - dy)) {
                 checkerG.addX(dx);
                 checkerG.addY(dy);
                 client.changeState();
             }
-            x += dx;
-            y += dy;
         }
 
         public void handle(MouseEvent mouseEvent) {

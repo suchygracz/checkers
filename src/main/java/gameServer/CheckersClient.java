@@ -168,7 +168,7 @@ public class CheckersClient extends Application implements Runnable{
     {
         for(CheckerG check : whiteAndBlackCheckers)
         {
-            if(Objects.equals(check.getPos().getKey(), pos.getKey()) && Objects.equals(check.getPos().getValue(), pos.getValue())) return check;
+            if(Objects.equals(check.getPos(), pos)) return check;
         }
         return null;
     }
