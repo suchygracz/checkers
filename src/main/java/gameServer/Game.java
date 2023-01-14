@@ -32,21 +32,33 @@ public class Game implements Runnable{
             printerFirstPlayer.println("1");
             printerSecondPlayer.println("2");
 
-            String line;
+            int OldX, OldY, NewX, NewY;
             do {
-                // Odbieranie od socketa
-                line = bufforFirstPlayer.readLine();
-                // Wypisywanie na serwerze
-                System.out.println(line);
-                // Wysylanie do socketa
-                printerSecondPlayer.println("-> (" + line + ")");
+                OldX = Integer.parseInt(bufforFirstPlayer.readLine());
+                NewX = Integer.parseInt(bufforFirstPlayer.readLine());
+                OldY = Integer.parseInt(bufforFirstPlayer.readLine());
+                NewY = Integer.parseInt(bufforFirstPlayer.readLine());
 
-                // Odbieranie od socketa
-                line = bufforSecondPlayer.readLine();
-                // Wypisywanie na serwerze
-                System.out.println(line);
-                // Wysylanie do socketa
-                printerFirstPlayer.println("-> (" + line + ")");
+                //board.movePiece(board.getWhitePiece(new Pair<>((OldX - 25)/50, (OldY-25)/50)), new Pair<>((NewX-25)/50, (NewY-25)/50));
+                System.out.println(OldX + " " + OldY + " ---> " + NewX + " " + NewY);
+
+                printerSecondPlayer.println(OldX);
+                printerSecondPlayer.println(NewX);
+                printerSecondPlayer.println(OldY);
+                printerSecondPlayer.println(NewY);
+
+                OldX = Integer.parseInt(bufforSecondPlayer.readLine());
+                NewX = Integer.parseInt(bufforSecondPlayer.readLine());
+                OldY = Integer.parseInt(bufforSecondPlayer.readLine());
+                NewY = Integer.parseInt(bufforSecondPlayer.readLine());
+
+                //board.movePiece(board.getBlackPiece(new Pair<>((OldX - 25)/50, (OldY-25)/50)), new Pair<>((NewX-25)/50, (NewY-25)/50));
+                System.out.println(OldX + " " + OldY + " ---> " + NewX + " " + NewY);
+
+                printerFirstPlayer.println(OldX);
+                printerFirstPlayer.println(NewX);
+                printerFirstPlayer.println(OldY);
+                printerFirstPlayer.println(NewY);
 
             } while (true);
 
