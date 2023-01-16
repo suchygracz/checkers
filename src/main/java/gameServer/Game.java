@@ -76,11 +76,11 @@ public class Game implements Runnable{
     }
     private boolean isWhiteMovePossible()
     {
-        return board.movePiece(board.getWhitePiece(new Pair<>((OldX + 25)/50, (OldY + 25)/50)), new Pair<>((NewX + 25)/50, (NewY + 25)/50));
+        return board.moveWhitePiece(board.getWhitePiece(new Pair<>((OldX + 25)/50, (OldY + 25)/50)), new Pair<>((NewX + 25)/50, (NewY + 25)/50));
     }
     private boolean isBlackMovePossible()
     {
-        return board.movePiece(board.getBlackPiece(new Pair<>((OldX + 25)/50, (OldY + 25)/50)), new Pair<>((NewX + 25)/50, (NewY + 25)/50));
+        return board.moveBlackPiece(board.getBlackPiece(new Pair<>((OldX + 25)/50, (OldY + 25)/50)), new Pair<>((NewX + 25)/50, (NewY + 25)/50));
     }
     private void whiteSequence() throws IOException {
         takeFirstPlayerMove();
