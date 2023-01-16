@@ -195,6 +195,12 @@ public class CheckersClient extends Application implements Runnable{
             System.exit(1);
         }
     }
+
+    public BufferedReader getIn()
+    {
+        return in;
+    }
+
 }
 
 

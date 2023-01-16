@@ -81,8 +81,10 @@ public class Game implements Runnable{
         takeFirstPlayerMove();
         while(!isWhiteMovePossible())
         {
+            printerFirstPlayer.println("not possible");
             takeFirstPlayerMove();
         }
+        printerFirstPlayer.println("possible");
         System.out.println(OldX + " " + OldY + " ---> " + NewX + " " + NewY);
         sendMoveToSecondPlayer();
     }
@@ -90,8 +92,10 @@ public class Game implements Runnable{
         takeSecondPlayerMove();
         while(!isBlackMovePossible())
         {
+            printerSecondPlayer.println("not possible");
             takeSecondPlayerMove();
         }
+        printerSecondPlayer.println("possible");
         System.out.println(OldX + " " + OldY + " ---> " + NewX + " " + NewY);
         sendMoveToFirstPlayer();
     }

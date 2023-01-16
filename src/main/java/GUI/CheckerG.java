@@ -7,6 +7,7 @@ import javafx.scene.shape.Ellipse;
 import javafx.util.Pair;
 import onBoard.Piece;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 
 public class CheckerG extends Ellipse {
@@ -33,35 +34,42 @@ public class CheckerG extends Ellipse {
         return getBoundsInLocal().contains(x, y);
     }
 
-    private void addX(double x){
+    private int addX(double x){
         out.println((int)getCenterX());
         int X = (int) (getCenterX() + x);
         int result = (X / 50) * 50 + 25;
-        setCenterX(result);
+        //setCenterX(result);
         out.println(result);
+        return result;
     }
 
-    private void addY(double y){
+    private int addY(double y){
         out.println((int)getCenterY());
         int Y = (int) (getCenterY() + y);
         int result = (Y / 50) * 50 + 25;
-        setCenterY(result);
+        //setCenterY(result);
         out.println(result);
+        return result;
     }
 
     class CheckerGEventHandler implements EventHandler<MouseEvent> {
         CheckerG checkerG;
         private double x;
         private double y;
-        public void moveChecker(MouseEvent mouseEvent) {
+        public void moveChecker(MouseEvent mouseEvent) throws IOException {
             double dx = mouseEvent.getX() - x;
             double dy = mouseEvent.getY() - y;
             x += dx;
             y += dy;
             if (checkerG.isHit(x - dx, y - dy)) {
-                checkerG.addX(dx);
-                checkerG.addY(dy);
-                client.changeState();
+                int CenterX = checkerG.addX(dx);
+                int CenterY = checkerG.addY(dy);
+                //checkerG.addY(dy);
+                if(client.getIn().readLine().equals("possible")) {
+                    setCenterX(CenterX);
+                    setCenterY(CenterY);
+                    client.changeState();
+                }
             }
         }
 
@@ -69,7 +77,11 @@ public class CheckerG extends Ellipse {
             checkerG = (CheckerG) mouseEvent.getSource();
 
             if (mouseEvent.getEventType() == MouseEvent.MOUSE_RELEASED) {
+                try {
                     moveChecker(mouseEvent);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }
