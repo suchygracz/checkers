@@ -1,5 +1,7 @@
 package gameServer;
 
+import checkersRules.AbstractGame;
+import checkersRules.ClassicGame;
 import javafx.util.Pair;
 import onBoard.Board;
 
@@ -12,6 +14,7 @@ public class Game implements Runnable{
     private final Socket secondPlayer;
     private final Board board = new Board();
     private int OldX, OldY, NewX, NewY;
+    private AbstractGame gameType;
 
     InputStream inputFirstPlayer;
     BufferedReader bufforFirstPlayer;
@@ -33,6 +36,8 @@ public class Game implements Runnable{
 
             printerFirstPlayer.println("1");
             printerSecondPlayer.println("2");
+
+            gameType = new ClassicGame();
 
             do {
                 whiteSequence();

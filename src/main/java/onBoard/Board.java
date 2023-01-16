@@ -105,15 +105,12 @@ public class Board {
         }
 
         return true;
-    }
+    };
     public boolean isJumpLengthEnough(Piece piece, Pair<Integer, Integer> pos) {
-        int posX = piece.getPos().getKey();
-        int posY = piece.getPos().getValue();
-        int posXNew = pos.getKey();
-        int posYNew = pos.getValue();
+        int posXDifference = Math.abs(pos.getKey() - piece.getPos().getKey());
+        int posYDifference = Math.abs(pos.getValue() - piece.getPos().getValue());
         int jumpLength = piece.getJumpLength();
-
-        return posXNew - posX <= jumpLength && posYNew - posY <= jumpLength;
+        return (posXDifference <= jumpLength && posYDifference <= jumpLength && posYDifference > 0 && posXDifference > 0);
     }
     private void exchangeForKing(Piece piece)
     {

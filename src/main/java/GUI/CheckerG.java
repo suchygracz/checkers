@@ -64,7 +64,6 @@ public class CheckerG extends Ellipse {
             if (checkerG.isHit(x - dx, y - dy)) {
                 int CenterX = checkerG.addX(dx);
                 int CenterY = checkerG.addY(dy);
-                //checkerG.addY(dy);
                 if(client.getIn().readLine().equals("possible")) {
                     setCenterX(CenterX);
                     setCenterY(CenterY);
