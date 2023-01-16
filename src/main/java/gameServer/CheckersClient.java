@@ -101,10 +101,11 @@ public class CheckersClient extends Application implements Runnable{
 
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
+        primaryStage.setTitle("Checkers");
         primaryStage.setResizable(false);
         primaryStage.show();
 
-        receiveInitFromServer();
+        receiveInitFromServer(primaryStage);
         startThread();
     }
 
@@ -186,10 +187,15 @@ public class CheckersClient extends Application implements Runnable{
             System.exit(1);
         }
     }
-    private void receiveInitFromServer() {
+    private void receiveInitFromServer(Stage primaryStage) {
         try {
             player = Integer.parseInt(in.readLine());
-            board.setDisable(player != 1);
+            if(player != 1)
+            {
+                root.getChildren().remove(0);
+                primaryStage.setHeight(430);
+                board.setDisable(true);
+            }
         } catch (IOException e) {
             System.out.println("Read failed");
             System.exit(1);
