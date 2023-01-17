@@ -38,8 +38,9 @@ public class Game implements Runnable{
             printerSecondPlayer.println("2");
 
             RulesFactory factory = new RulesFactory();
-
-            gameType = factory.create(bufforFirstPlayer.readLine());
+            gameType = factory.create(bufforFirstPlayer.readLine());//działa printy potwierdzają
+            System.out.println(gameType.getCanKingMoveMultipleFields());
+            System.out.print(true);
 
             do {
                 whiteSequence();

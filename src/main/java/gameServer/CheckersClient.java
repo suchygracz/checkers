@@ -3,9 +3,12 @@ package gameServer;
 import GUI.CheckerG;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -35,13 +38,16 @@ public class CheckersClient extends Application implements Runnable{
     StackPane stackPane = new StackPane();
 
     Socket socket = null;
-    PrintWriter out = null;
+    PrintWriter out = null; //out.println
     BufferedReader in = null;
 
     Button russianGameButton = new Button("Russian Game");
     Button turkishGameButton = new Button("Turkish Game");
     Button englishGameButton = new Button("English Game");
 
+
+
+    //out.println("")
 
     Vector<CheckerG> whiteAndBlackCheckers = new Vector<>(24);
     private void initializeBoard()
@@ -97,6 +103,26 @@ public class CheckersClient extends Application implements Runnable{
         russianGameButton.setPrefWidth(120);
         turkishGameButton.setPrefWidth(120);
         englishGameButton.setPrefWidth(120);
+
+        EventHandler<MouseEvent> eventHandler = event -> {
+            russianGameButton.setDisable(true);
+            turkishGameButton.setDisable(true);
+            englishGameButton.setDisable(true);
+
+            Object source = event.getSource();
+            if (source == russianGameButton) {
+                out.println("RussianGame");
+            } else if (source == turkishGameButton) {
+                out.println("TurkishGame");
+            } else if (source == englishGameButton) {
+                out.println("EnglishGame");
+            }
+
+        };
+
+        russianGameButton.setOnMouseClicked(eventHandler);
+        turkishGameButton.setOnMouseClicked(eventHandler);
+        englishGameButton.setOnMouseClicked(eventHandler);
 
         buttons.getChildren().addAll(russianGameButton, turkishGameButton, englishGameButton);
         root.getChildren().addAll(buttons, stackPane);
@@ -243,6 +269,7 @@ public class CheckersClient extends Application implements Runnable{
     }
 
 }
+
 
 
 

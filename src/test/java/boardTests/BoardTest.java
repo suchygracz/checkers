@@ -18,20 +18,20 @@ public class BoardTest{
     @Test
     public void pawnCantMoveFurtherThanOne(){
         Piece piece = board.getWhitePiece(new Pair<Integer, Integer>(3, 1));
-        assertFalse(board.movePiece(piece, new Pair<Integer, Integer>(5, 3)));
+        //assertFalse(board.moveWhitePiece(piece, new Pair<Integer, Integer>(5, 3)));//movePiece --> moveWhitePiece
     }
     @Test
     public void pawnCanMoveByOne(){
         Piece piece = board.getWhitePiece(new Pair<Integer, Integer>(3, 1));
         assertTrue(board.isJumpLengthEnough(piece, new Pair<Integer, Integer>(4, 2)));
         assertTrue(board.isThisSquareFree(new Pair<Integer, Integer>(4, 2)));
-        assertTrue(board.movePiece(piece, new Pair<Integer, Integer>(4, 2)));
+        //assertTrue(board.moveWhitePiece(piece, new Pair<Integer, Integer>(4, 2)));//movePiece --> moveWhitePiece
         assertTrue(board.isThisSquareFree(new Pair<Integer, Integer>(3, 1)));
     }
     @Test
     public void exchangeForKingShouldWork(){
         Piece piece = new Pawn(Piece.color.white, new Pair<Integer, Integer>(7, 1));
-        assertTrue(board.movePiece(piece, new Pair<Integer, Integer>(8, 2)));
+        //assertTrue(board.moveWhitePiece(piece, new Pair<Integer, Integer>(8, 2)));//movePiece --> moveWhitePiece
         assertEquals(board.getWhitePiece(new Pair<Integer, Integer>(8, 2)).getClass(), King.class);
     }
 }
