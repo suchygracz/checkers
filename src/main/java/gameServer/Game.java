@@ -74,35 +74,41 @@ public class Game implements Runnable{
         printerSecondPlayer.println(OldY);
         printerSecondPlayer.println(NewY);
     }
-    private boolean isWhiteMovePossible()
+    private Pair<Boolean, Pair<Integer, Integer>> isWhiteMovePossible()
     {
         return board.moveWhitePiece(board.getWhitePiece(new Pair<>((OldX + 25)/50, (OldY + 25)/50)), new Pair<>((NewX + 25)/50, (NewY + 25)/50));
     }
-    private boolean isBlackMovePossible()
+    private Pair<Boolean, Pair<Integer, Integer>> isBlackMovePossible()
     {
         return board.moveBlackPiece(board.getBlackPiece(new Pair<>((OldX + 25)/50, (OldY + 25)/50)), new Pair<>((NewX + 25)/50, (NewY + 25)/50));
     }
     private void whiteSequence() throws IOException {
         takeFirstPlayerMove();
-        while(!isWhiteMovePossible())
+        Pair<Boolean, Pair<Integer, Integer>> move = isWhiteMovePossible();
+        while(!move.getKey())
         {
             printerFirstPlayer.println("not possible");
             takeFirstPlayerMove();
+            move = isWhiteMovePossible();
         }
         printerFirstPlayer.println("possible");
         System.out.println(OldX + " " + OldY + " ---> " + NewX + " " + NewY);
         sendMoveToSecondPlayer();
+        sendKill(move.getValue());
     }
     private void blackSequence() throws IOException {
         takeSecondPlayerMove();
-        while(!isBlackMovePossible())
+        Pair<Boolean, Pair<Integer, Integer>> move = isBlackMovePossible();
+        while(!move.getKey())
         {
             printerSecondPlayer.println("not possible");
             takeSecondPlayerMove();
+            move = isBlackMovePossible();
         }
-        printerSecondPlayer.println("possible");
+        printerSecondPlayer.println("possible");;
         System.out.println(OldX + " " + OldY + " ---> " + NewX + " " + NewY);
         sendMoveToFirstPlayer();
+        sendKill(move.getValue());
     }
     private void initializeInputAndOutput() throws IOException {
         inputFirstPlayer = firstPlayer.getInputStream();
@@ -116,6 +122,27 @@ public class Game implements Runnable{
 
         outputSecondPlayer = secondPlayer.getOutputStream();
         printerSecondPlayer = new PrintWriter(outputSecondPlayer, true);
+    }
+    private void sendKill(Pair<Integer, Integer> pos)
+    {
+        if(pos != null)
+        {
+            sendKillCoordinate(pos);
+        }
+        else
+        {
+            printerFirstPlayer.println("no kill");
+            printerSecondPlayer.println("no kill");
+        }
+    }
+    private void sendKillCoordinate(Pair<Integer, Integer> pos)
+    {
+        printerFirstPlayer.println("kill");
+        printerFirstPlayer.println(pos.getKey());
+        printerFirstPlayer.println(pos.getValue());
+        printerSecondPlayer.println("kill");
+        printerSecondPlayer.println(pos.getKey());
+        printerSecondPlayer.println(pos.getValue());
     }
 
 }

@@ -10,38 +10,38 @@ public class Board {
     {
         fillTheBoard();
     }
-    public boolean moveWhitePiece(Piece piece, Pair<Integer, Integer> pos){
+    public Pair<Boolean, Pair<Integer, Integer>> moveWhitePiece(Piece piece, Pair<Integer, Integer> pos){
         BeatingCoordinates beat = doYouHaveToBeatBlack();
         if(beat.ifTrue)
         {
             if(pos.equals(beat.nextPos))
             {
-                piece.setPos(pos);
+                piece.setPos(beat.nextPos);
                 killBlack(beat.lostPiece);
-                return true;
+                return new Pair<>(true, beat.lostPiece);
             }
-            return false;
+            return new Pair<>(false, null);
         }
         else
         {
-            return standardMove(piece, pos);
+            return new Pair<>(standardMove(piece, pos), null);
         }
     }
-    public boolean moveBlackPiece(Piece piece, Pair<Integer, Integer> pos){
+    public Pair<Boolean, Pair<Integer, Integer>> moveBlackPiece(Piece piece, Pair<Integer, Integer> pos){
         BeatingCoordinates beat = doYouHaveToBeatWhite();
         if(beat.ifTrue)
         {
             if(pos.equals(beat.nextPos))
             {
-                piece.setPos(pos);
+                piece.setPos(beat.nextPos);
                 killWhite(beat.lostPiece);
-                return true;
+                return new Pair<>(true, beat.lostPiece);
             }
-            return false;
+            return new Pair<>(false, null);
         }
         else
         {
-            return standardMove(piece, pos);
+            return new Pair<>(standardMove(getBlackPiece(piece.getPos()), pos), null);
         }
     }
     public Piece getBlackPiece(Pair<Integer, Integer> pos)
@@ -60,7 +60,6 @@ public class Board {
         }
         return null;
     }
-
     private boolean standardMove(Piece piece, Pair<Integer, Integer> pos)
     {
         if(isThisSquareFree(pos) && isJumpLengthEnough(piece, pos)) {

@@ -2,6 +2,7 @@ package gameServer;
 
 import GUI.CheckerG;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -117,34 +118,71 @@ public class CheckersClient extends Application implements Runnable{
     public void run()
     {
         if (player==1) {
-            f1();
+            try {
+                f1();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
         else{
-            f2();
+            try {
+                f2();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
-    private void f1(){
+    private void f1() throws IOException {
         while(true) {
             synchronized (this) {
                 if (board.isDisable()){
                     receive();
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                receiveKill();
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    });
+                    board.setDisable(false);
                 }
                 notifyAll();
             }
         }
     }
-
-    private void f2(){
+    private void f2() throws IOException {
         while(true) {
             synchronized (this) {
                 if (board.isDisable()){
                     receive();
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                receiveKill();
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    });
+                    board.setDisable(false);
                 }
                 notifyAll();
             }
         }
     }
-
+    public void receiveKill() throws IOException {
+        if(Objects.equals(in.readLine(), "kill"))
+        {
+            int posX = Integer.parseInt(in.readLine());
+            int posY = Integer.parseInt(in.readLine());
+            board.getChildren().remove(findChecker(new Pair<>(-25 + posX * 50, -25 + posY * 50)));
+            whiteAndBlackCheckers.remove(findChecker(new Pair<>(-25 + posX * 50, -25 + posY * 50)));
+        }
+    }
     private void receive(){
         try {
             int OldX, OldY, NewX, NewY;
@@ -152,20 +190,17 @@ public class CheckersClient extends Application implements Runnable{
             NewX = Integer.parseInt(in.readLine());
             OldY = Integer.parseInt(in.readLine());
             NewY = Integer.parseInt(in.readLine());
-            System.out.println(OldX + " " + OldY);
             findChecker(new Pair<>(OldX, OldY)).setPos(NewX, NewY);
-            board.setDisable(false);
         }
         catch (IOException e) {
             System.out.println("Read failed"); System.exit(1);}
     }
 
     public void changeState(){
-        System.out.println("heh");
         board.setDisable(true);
     }
 
-    private CheckerG findChecker(Pair<Integer, Integer> pos)
+    public CheckerG findChecker(Pair<Integer, Integer> pos)
     {
         for(CheckerG check : whiteAndBlackCheckers)
         {
@@ -201,7 +236,6 @@ public class CheckersClient extends Application implements Runnable{
             System.exit(1);
         }
     }
-
     public BufferedReader getIn()
     {
         return in;

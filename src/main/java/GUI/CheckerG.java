@@ -38,7 +38,6 @@ public class CheckerG extends Ellipse {
         out.println((int)getCenterX());
         int X = (int) (getCenterX() + x);
         int result = (X / 50) * 50 + 25;
-        //setCenterX(result);
         out.println(result);
         return result;
     }
@@ -47,7 +46,6 @@ public class CheckerG extends Ellipse {
         out.println((int)getCenterY());
         int Y = (int) (getCenterY() + y);
         int result = (Y / 50) * 50 + 25;
-        //setCenterY(result);
         out.println(result);
         return result;
     }
@@ -67,6 +65,7 @@ public class CheckerG extends Ellipse {
                 if(client.getIn().readLine().equals("possible")) {
                     setCenterX(CenterX);
                     setCenterY(CenterY);
+                    client.receiveKill();
                     client.changeState();
                 }
             }
