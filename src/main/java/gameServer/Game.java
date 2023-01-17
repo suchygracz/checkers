@@ -1,7 +1,7 @@
 package gameServer;
 
 import checkersRules.AbstractGame;
-import checkersRules.ClassicGame;
+import factory.RulesFactory;
 import javafx.util.Pair;
 import onBoard.Board;
 
@@ -37,7 +37,9 @@ public class Game implements Runnable{
             printerFirstPlayer.println("1");
             printerSecondPlayer.println("2");
 
-            gameType = new ClassicGame();
+            RulesFactory factory = new RulesFactory();
+
+            gameType = factory.create(bufforFirstPlayer.readLine());
 
             do {
                 whiteSequence();

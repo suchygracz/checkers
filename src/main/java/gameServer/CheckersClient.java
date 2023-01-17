@@ -42,6 +42,7 @@ public class CheckersClient extends Application implements Runnable{
     Button turkishGameButton = new Button("Turkish Game");
     Button englishGameButton = new Button("English Game");
 
+
     Vector<CheckerG> whiteAndBlackCheckers = new Vector<>(24);
     private void initializeBoard()
     {
