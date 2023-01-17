@@ -138,17 +138,22 @@ public class Board {
     }
     public boolean isThisSquareFree(Pair<Integer, Integer> pos)
     {
-        for(Piece piece : whitePieces)
+        if(pos.getKey() > 0 && pos.getKey() < 9 && pos.getValue() > 0 && pos.getValue() < 9)
         {
-            if(piece.getPos().equals(pos)) return false;
+            for(Piece piece : whitePieces)
+            {
+                if(piece.getPos().equals(pos)) return false;
+            }
+
+            for(Piece piece : blackPieces)
+            {
+                if(piece.getPos().equals(pos)) return false;
+            }
+
+            return true;
         }
 
-        for(Piece piece : blackPieces)
-        {
-            if(piece.getPos().equals(pos)) return false;
-        }
-
-        return true;
+        return false;
     };
     public boolean isJumpLengthEnough(Piece piece, Pair<Integer, Integer> pos) {
         int posXDifference = Math.abs(pos.getKey() - piece.getPos().getKey());
