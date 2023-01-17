@@ -3,7 +3,6 @@ package gameServer;
 import GUI.CheckerG;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -118,6 +117,8 @@ public class CheckersClient extends Application implements Runnable{
                 out.println("EnglishGame");
             }
 
+            board.setDisable(false);
+            startThread();
         };
 
         russianGameButton.setOnMouseClicked(eventHandler);
@@ -134,7 +135,9 @@ public class CheckersClient extends Application implements Runnable{
         primaryStage.show();
 
         receiveInitFromServer(primaryStage);
-        startThread();
+        if(player==2) {
+            startThread();
+        }
     }
 
     private void startThread() {

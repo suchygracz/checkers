@@ -93,7 +93,6 @@ public class Board {
         }
         return false;
     }
-
     private BeatingCoordinates doYouHaveToBeatWhite()
     {
         int posX;
@@ -102,17 +101,17 @@ public class Board {
         {
             posX = piece.getPos().getKey();
             posY = piece.getPos().getValue();
-            if(gameType.getCanYouBeatBackwards())
-            {
-                if(getWhitePiece(new Pair<>(posX + 1, posY + 1)) != null && isThisSquareFree(new Pair<>(posX + 2, posY + 2)))
-                    return new BeatingCoordinates(true, new Pair<>(posX + 2, posY + 2), new Pair<>(posX + 1, posY + 1));
-                if(getWhitePiece(new Pair<>(posX - 1, posY + 1)) != null && isThisSquareFree(new Pair<>(posX - 2, posY + 2)))
-                    return new BeatingCoordinates(true, new Pair<>(posX - 2, posY + 2), new Pair<>(posX - 1, posY + 1));
+
+            if(getWhitePiece(new Pair<>(posX + 1, posY + 1)) != null && isThisSquareFree(new Pair<>(posX + 2, posY + 2)))
+                return new BeatingCoordinates(true, new Pair<>(posX + 2, posY + 2), new Pair<>(posX + 1, posY + 1));
+            if(getWhitePiece(new Pair<>(posX - 1, posY + 1)) != null && isThisSquareFree(new Pair<>(posX - 2, posY + 2)))
+                return new BeatingCoordinates(true, new Pair<>(posX - 2, posY + 2), new Pair<>(posX - 1, posY + 1));
+            if(gameType.getCanYouBeatBackwards()) {
+                if (getWhitePiece(new Pair<>(posX + 1, posY - 1)) != null && isThisSquareFree(new Pair<>(posX + 2, posY - 2)))
+                    return new BeatingCoordinates(true, new Pair<>(posX + 2, posY - 2), new Pair<>(posX + 1, posY - 1));
+                if (getWhitePiece(new Pair<>(posX - 1, posY - 1)) != null && isThisSquareFree(new Pair<>(posX - 2, posY - 2)))
+                    return new BeatingCoordinates(true, new Pair<>(posX - 2, posY - 2), new Pair<>(posX - 1, posY - 1));
             }
-            if(getWhitePiece(new Pair<>(posX + 1, posY - 1)) != null && isThisSquareFree(new Pair<>(posX + 2, posY - 2)))
-                return new BeatingCoordinates(true, new Pair<>(posX + 2, posY - 2), new Pair<>(posX + 1, posY - 1));
-            if(getWhitePiece(new Pair<>(posX - 1, posY - 1)) != null && isThisSquareFree(new Pair<>(posX - 2, posY - 2)))
-                return new BeatingCoordinates(true, new Pair<>(posX - 2, posY - 2), new Pair<>(posX - 1, posY - 1));
         }
 
         return new BeatingCoordinates(false, null, null);
@@ -125,17 +124,16 @@ public class Board {
         {
             posX = piece.getPos().getKey();
             posY = piece.getPos().getValue();
-            if(getBlackPiece(new Pair<>(posX + 1, posY + 1)) != null && isThisSquareFree(new Pair<>(posX + 2, posY + 2)))
-                return new BeatingCoordinates(true, new Pair<>(posX + 2, posY + 2), new Pair<>(posX + 1, posY + 1));
-            if(getBlackPiece(new Pair<>(posX - 1, posY + 1)) != null && isThisSquareFree(new Pair<>(posX - 2, posY + 2)))
-                return new BeatingCoordinates(true, new Pair<>(posX - 2, posY + 2), new Pair<>(posX - 1, posY + 1));
-            if(gameType.getCanYouBeatBackwards())
-            {
-                if(getBlackPiece(new Pair<>(posX + 1, posY - 1)) != null && isThisSquareFree(new Pair<>(posX + 2, posY - 2)))
-                    return new BeatingCoordinates(true, new Pair<>(posX + 2, posY - 2), new Pair<>(posX + 1, posY - 1));
-                if(getBlackPiece(new Pair<>(posX - 1, posY - 1)) != null && isThisSquareFree(new Pair<>(posX - 2, posY - 2)))
-                    return new BeatingCoordinates(true, new Pair<>(posX - 2, posY - 2), new Pair<>(posX - 1, posY - 1));
+            if(gameType.getCanYouBeatBackwards()) {
+                if (getBlackPiece(new Pair<>(posX + 1, posY + 1)) != null && isThisSquareFree(new Pair<>(posX + 2, posY + 2)))
+                    return new BeatingCoordinates(true, new Pair<>(posX + 2, posY + 2), new Pair<>(posX + 1, posY + 1));
+                if (getBlackPiece(new Pair<>(posX - 1, posY + 1)) != null && isThisSquareFree(new Pair<>(posX - 2, posY + 2)))
+                    return new BeatingCoordinates(true, new Pair<>(posX - 2, posY + 2), new Pair<>(posX - 1, posY + 1));
             }
+            if(getBlackPiece(new Pair<>(posX + 1, posY - 1)) != null && isThisSquareFree(new Pair<>(posX + 2, posY - 2)))
+                return new BeatingCoordinates(true, new Pair<>(posX + 2, posY - 2), new Pair<>(posX + 1, posY - 1));
+            if(getBlackPiece(new Pair<>(posX - 1, posY - 1)) != null && isThisSquareFree(new Pair<>(posX - 2, posY - 2)))
+                return new BeatingCoordinates(true, new Pair<>(posX - 2, posY - 2), new Pair<>(posX - 1, posY - 1));
         }
 
         return new BeatingCoordinates(false, null, null);
