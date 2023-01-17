@@ -256,8 +256,8 @@ public class CheckersClient extends Application implements Runnable{
             {
                 root.getChildren().remove(0);
                 primaryStage.setHeight(430);
-                board.setDisable(true);
             }
+            board.setDisable(true);
         } catch (IOException e) {
             System.out.println("Read failed");
             System.exit(1);

@@ -12,7 +12,7 @@ public class Game implements Runnable{
 
     private final Socket firstPlayer;
     private final Socket secondPlayer;
-    private final Board board = new Board();
+    private Board board;
     private int OldX, OldY, NewX, NewY;
     private AbstractGame gameType;
 
@@ -38,9 +38,9 @@ public class Game implements Runnable{
             printerSecondPlayer.println("2");
 
             RulesFactory factory = new RulesFactory();
-            gameType = factory.create(bufforFirstPlayer.readLine());//działa printy potwierdzają
-            System.out.println(gameType.getCanKingMoveMultipleFields());
-            System.out.print(true);
+
+            gameType = factory.create(bufforFirstPlayer.readLine());
+            board = new Board(gameType);
 
             do {
                 whiteSequence();
