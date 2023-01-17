@@ -1,14 +1,21 @@
 package onBoard;
 
+import checkersRules.AbstractGame;
 import javafx.util.Pair;
 import java.util.Vector;
 
 public class Board {
     Vector<Piece> whitePieces = new Vector<>(12);
     Vector<Piece> blackPieces = new Vector<>(12);
-    public Board()
+    private final AbstractGame gameType;
+    public Board(AbstractGame gameType)
     {
         fillTheBoard();
+        this.gameType = gameType;
+        if(!gameType.getCanKingMoveMultipleFields())
+        {
+            King.setJumpLength(1);
+        }
     }
     public Pair<Boolean, Pair<Integer, Integer>> moveWhitePiece(Piece piece, Pair<Integer, Integer> pos){
         BeatingCoordinates beat = doYouHaveToBeatBlack();
@@ -24,6 +31,13 @@ public class Board {
         }
         else
         {
+            if(!gameType.getCanYouMoveBackwardsWithNormalPieces())
+            {
+                if(piece.getPos().getValue() - pos.getValue() < 0)
+                {
+                    return new Pair<>(false, null);
+                }
+            }
             return new Pair<>(standardMove(piece, pos), null);
         }
     }
@@ -41,6 +55,13 @@ public class Board {
         }
         else
         {
+            if(!gameType.getCanYouMoveBackwardsWithNormalPieces())
+            {
+                if(piece.getPos().getValue() - pos.getValue() > 0)
+                {
+                    return new Pair<>(false, null);
+                }
+            }
             return new Pair<>(standardMove(getBlackPiece(piece.getPos()), pos), null);
         }
     }
@@ -81,10 +102,13 @@ public class Board {
         {
             posX = piece.getPos().getKey();
             posY = piece.getPos().getValue();
-            if(getWhitePiece(new Pair<>(posX + 1, posY + 1)) != null && isThisSquareFree(new Pair<>(posX + 2, posY + 2)))
-                return new BeatingCoordinates(true, new Pair<>(posX + 2, posY + 2), new Pair<>(posX + 1, posY + 1));
-            if(getWhitePiece(new Pair<>(posX - 1, posY + 1)) != null && isThisSquareFree(new Pair<>(posX - 2, posY + 2)))
-                return new BeatingCoordinates(true, new Pair<>(posX - 2, posY + 2), new Pair<>(posX - 1, posY + 1));
+            if(gameType.getCanYouBeatBackwards())
+            {
+                if(getWhitePiece(new Pair<>(posX + 1, posY + 1)) != null && isThisSquareFree(new Pair<>(posX + 2, posY + 2)))
+                    return new BeatingCoordinates(true, new Pair<>(posX + 2, posY + 2), new Pair<>(posX + 1, posY + 1));
+                if(getWhitePiece(new Pair<>(posX - 1, posY + 1)) != null && isThisSquareFree(new Pair<>(posX - 2, posY + 2)))
+                    return new BeatingCoordinates(true, new Pair<>(posX - 2, posY + 2), new Pair<>(posX - 1, posY + 1));
+            }
             if(getWhitePiece(new Pair<>(posX + 1, posY - 1)) != null && isThisSquareFree(new Pair<>(posX + 2, posY - 2)))
                 return new BeatingCoordinates(true, new Pair<>(posX + 2, posY - 2), new Pair<>(posX + 1, posY - 1));
             if(getWhitePiece(new Pair<>(posX - 1, posY - 1)) != null && isThisSquareFree(new Pair<>(posX - 2, posY - 2)))
@@ -105,15 +129,17 @@ public class Board {
                 return new BeatingCoordinates(true, new Pair<>(posX + 2, posY + 2), new Pair<>(posX + 1, posY + 1));
             if(getBlackPiece(new Pair<>(posX - 1, posY + 1)) != null && isThisSquareFree(new Pair<>(posX - 2, posY + 2)))
                 return new BeatingCoordinates(true, new Pair<>(posX - 2, posY + 2), new Pair<>(posX - 1, posY + 1));
-            if(getBlackPiece(new Pair<>(posX + 1, posY - 1)) != null && isThisSquareFree(new Pair<>(posX + 2, posY - 2)))
-                return new BeatingCoordinates(true, new Pair<>(posX + 2, posY - 2), new Pair<>(posX + 1, posY - 1));
-            if(getBlackPiece(new Pair<>(posX - 1, posY - 1)) != null && isThisSquareFree(new Pair<>(posX - 2, posY - 2)))
-                return new BeatingCoordinates(true, new Pair<>(posX - 2, posY - 2), new Pair<>(posX - 1, posY - 1));
+            if(gameType.getCanYouBeatBackwards())
+            {
+                if(getBlackPiece(new Pair<>(posX + 1, posY - 1)) != null && isThisSquareFree(new Pair<>(posX + 2, posY - 2)))
+                    return new BeatingCoordinates(true, new Pair<>(posX + 2, posY - 2), new Pair<>(posX + 1, posY - 1));
+                if(getBlackPiece(new Pair<>(posX - 1, posY - 1)) != null && isThisSquareFree(new Pair<>(posX - 2, posY - 2)))
+                    return new BeatingCoordinates(true, new Pair<>(posX - 2, posY - 2), new Pair<>(posX - 1, posY - 1));
+            }
         }
 
         return new BeatingCoordinates(false, null, null);
     }
-
     private void killWhite(Pair<Integer, Integer> pos){
         whitePieces.remove(getWhitePiece(pos));
     }
@@ -161,7 +187,7 @@ public class Board {
         int jumpLength = piece.getJumpLength();
         return (posXDifference <= jumpLength && posYDifference <= jumpLength && posYDifference > 0 && posXDifference > 0);
     }
-    private void exchangeForKing(Piece piece)
+    private King exchangeForKing(Piece piece)
     {
         King king = new King(piece);
         if(piece.getColor() == Piece.color.black)
@@ -174,6 +200,7 @@ public class Board {
             whitePieces.remove(piece);
             whitePieces.add(king);
         }
+        return king;
     }
 
 }
