@@ -87,7 +87,7 @@ public class Board {
     {
         if(isThisSquareFree(pos) && isJumpLengthEnough(piece, pos)) {
             piece.setPos(pos);
-            if(piece.getClass() == Pawn.class && pos.getKey() == 8)
+            if(piece.getClass() == Pawn.class && pos.getKey() == 1)
             {
                 exchangeForKing(piece);
             }
@@ -212,7 +212,7 @@ public class Board {
         int jumpLength = piece.getJumpLength();
         return (posXDifference <= jumpLength && posYDifference <= jumpLength && posYDifference > 0 && posXDifference > 0);
     }
-    private King exchangeForKing(Piece piece)
+    private void exchangeForKing(Piece piece)
     {
         King king = new King(piece);
         if(piece.getColor() == Piece.color.black)
@@ -225,7 +225,6 @@ public class Board {
             whitePieces.remove(piece);
             whitePieces.add(king);
         }
-        return king;
     }
 
 }

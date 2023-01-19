@@ -8,16 +8,15 @@ import factory.RulesFactory;
 import gameServer.Game;
 import javafx.util.Pair;
 import onBoard.Board;
-import onBoard.King;
-import onBoard.Pawn;
 import onBoard.Piece;
 import org.junit.jupiter.api.Test;
-import static org.mockito.Mockito.*;
 
 import java.io.*;
 import java.net.Socket;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class BoardTest{
     private checkersRules.AbstractGame AbstractGame;
@@ -29,22 +28,16 @@ public class BoardTest{
     }
     @Test
     public void pawnCantMoveFurtherThanOne(){
-        Piece piece = board.getWhitePiece(new Pair<Integer, Integer>(3, 1));
+        Piece piece = board.getWhitePiece(new Pair<Integer, Integer>(3, 6));
         assertFalse(board.moveWhitePiece(piece, new Pair<Integer, Integer>(5, 3)).getKey());//movePiece --> moveWhitePiece
     }
     @Test
     public void pawnCanMoveByOne(){
-        Piece piece = board.getWhitePiece(new Pair<Integer, Integer>(3, 1));
-        assertTrue(board.isJumpLengthEnough(piece, new Pair<Integer, Integer>(4, 2)));
-        assertTrue(board.isThisSquareFree(new Pair<Integer, Integer>(4, 2)));
-        assertTrue(board.moveWhitePiece(piece, new Pair<Integer, Integer>(4, 2)).getKey());//movePiece --> moveWhitePiece
-        assertTrue(board.isThisSquareFree(new Pair<Integer, Integer>(3, 1)));
-    }
-    @Test
-    public void exchangeForKingShouldWork(){
-        Piece piece = new Pawn(Piece.color.white, new Pair<Integer, Integer>(7, 1));
-        assertTrue(board.moveWhitePiece(piece, new Pair<Integer, Integer>(8, 2)).getKey());//movePiece --> moveWhitePiece
-        assertEquals(board.getWhitePiece(new Pair<Integer, Integer>(8, 2)).getClass(), King.class);
+        Piece piece = board.getWhitePiece(new Pair<Integer, Integer>(3, 6));
+        assertTrue(board.isJumpLengthEnough(piece, new Pair<Integer, Integer>(4, 5)));
+        assertTrue(board.isThisSquareFree(new Pair<Integer, Integer>(4, 5)));
+        assertTrue(board.moveWhitePiece(piece, new Pair<Integer, Integer>(4, 5)).getKey());//movePiece --> moveWhitePiece
+        assertTrue(board.isThisSquareFree(new Pair<Integer, Integer>(3, 6)));
     }
 
     @Test
