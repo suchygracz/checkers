@@ -27,27 +27,63 @@ import java.rmi.UnknownHostException;
 import java.util.Objects;
 import java.util.Vector;
 
+/**
+ * The type Checkers client.
+ */
 public class CheckersClient extends Application implements Runnable{
 
     private int player;
 
+    /**
+     * The Root.
+     */
     VBox root = new VBox();
+    /**
+     * The Board.
+     */
     Pane board = new Pane();
+    /**
+     * The Buttons.
+     */
     HBox buttons = new HBox();
+    /**
+     * The Stack pane.
+     */
     StackPane stackPane = new StackPane();
 
+    /**
+     * The Socket.
+     */
     Socket socket = null;
+    /**
+     * The Out.
+     */
     PrintWriter out = null; //out.println
+    /**
+     * The In.
+     */
     BufferedReader in = null;
 
+    /**
+     * The Russian game button.
+     */
     Button russianGameButton = new Button("Russian Game");
+    /**
+     * The Turkish game button.
+     */
     Button turkishGameButton = new Button("Turkish Game");
+    /**
+     * The English game button.
+     */
     Button englishGameButton = new Button("English Game");
 
 
 
     //out.println("")
 
+    /**
+     * The White and black checkers.
+     */
     Vector<CheckerG> whiteAndBlackCheckers = new Vector<>(24);
     private void initializeBoard()
     {
@@ -89,6 +125,12 @@ public class CheckersClient extends Application implements Runnable{
         }
 
     }
+
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
         launch(args);
     }
@@ -204,6 +246,12 @@ public class CheckersClient extends Application implements Runnable{
             }
         }
     }
+
+    /**
+     * Receive kill.
+     *
+     * @throws IOException the io exception
+     */
     public void receiveKill() throws IOException {
         if(Objects.equals(in.readLine(), "kill"))
         {
@@ -226,10 +274,19 @@ public class CheckersClient extends Application implements Runnable{
             System.out.println("Read failed"); System.exit(1);}
     }
 
+    /**
+     * Change state.
+     */
     public void changeState(){
         board.setDisable(true);
     }
 
+    /**
+     * Find checker checker g.
+     *
+     * @param pos the pos
+     * @return the checker g
+     */
     public CheckerG findChecker(Pair<Integer, Integer> pos)
     {
         for(CheckerG check : whiteAndBlackCheckers)
@@ -266,6 +323,12 @@ public class CheckersClient extends Application implements Runnable{
             System.exit(1);
         }
     }
+
+    /**
+     * Gets in.
+     *
+     * @return the in
+     */
     public BufferedReader getIn()
     {
         return in;

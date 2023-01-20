@@ -5,7 +5,15 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 
+/**
+ * The type Win server thread.
+ */
 public class WinServerThread {
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
         try (ServerSocket serverSocket = new ServerSocket(4444)) {
 

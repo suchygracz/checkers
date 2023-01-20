@@ -4,10 +4,25 @@ import checkersRules.AbstractGame;
 import javafx.util.Pair;
 import java.util.Vector;
 
+/**
+ * The type Board.
+ */
 public class Board {
+    /**
+     * The White pieces.
+     */
     Vector<Piece> whitePieces = new Vector<>(12);
+    /**
+     * The Black pieces.
+     */
     Vector<Piece> blackPieces = new Vector<>(12);
     private final AbstractGame gameType;
+
+    /**
+     * Instantiates a new Board.
+     *
+     * @param gameType the game type
+     */
     public Board(AbstractGame gameType)
     {
         fillTheBoard();
@@ -17,6 +32,14 @@ public class Board {
             King.setJumpLength(1);
         }
     }
+
+    /**
+     * Move white piece pair.
+     *
+     * @param piece the piece
+     * @param pos   the pos
+     * @return the pair
+     */
     public Pair<Boolean, Pair<Integer, Integer>> moveWhitePiece(Piece piece, Pair<Integer, Integer> pos){
         Pair<Boolean, Vector<BeatingCoordinates>> beat = doYouHaveToBeatBlack();
         if(beat.getKey())
@@ -42,6 +65,14 @@ public class Board {
             return new Pair<>(standardMove(piece, pos), null);
         }
     }
+
+    /**
+     * Move black piece pair.
+     *
+     * @param piece the piece
+     * @param pos   the pos
+     * @return the pair
+     */
     public Pair<Boolean, Pair<Integer, Integer>> moveBlackPiece(Piece piece, Pair<Integer, Integer> pos){
         Pair<Boolean, Vector<BeatingCoordinates>> beat = doYouHaveToBeatWhite();
         if(beat.getKey())
@@ -67,6 +98,13 @@ public class Board {
             return new Pair<>(standardMove(getBlackPiece(piece.getPos()), pos), null);
         }
     }
+
+    /**
+     * Gets black piece.
+     *
+     * @param pos the pos
+     * @return the black piece
+     */
     public Piece getBlackPiece(Pair<Integer, Integer> pos)
     {
         for(Piece piece : blackPieces)
@@ -75,6 +113,13 @@ public class Board {
         }
         return null;
     }
+
+    /**
+     * Gets white piece.
+     *
+     * @param pos the pos
+     * @return the white piece
+     */
     public Piece getWhitePiece(Pair<Integer, Integer> pos)
     {
         for(Piece piece : whitePieces)
@@ -187,6 +232,13 @@ public class Board {
             }
         }
     }
+
+    /**
+     * Is this square free boolean.
+     *
+     * @param pos the pos
+     * @return the boolean
+     */
     public boolean isThisSquareFree(Pair<Integer, Integer> pos)
     {
         if(pos.getKey() > 0 && pos.getKey() < 9 && pos.getValue() > 0 && pos.getValue() < 9)
@@ -206,6 +258,14 @@ public class Board {
 
         return false;
     };
+
+    /**
+     * Is jump length enough boolean.
+     *
+     * @param piece the piece
+     * @param pos   the pos
+     * @return the boolean
+     */
     public boolean isJumpLengthEnough(Piece piece, Pair<Integer, Integer> pos) {
         int posXDifference = Math.abs(pos.getKey() - piece.getPos().getKey());
         int posYDifference = Math.abs(pos.getValue() - piece.getPos().getValue());

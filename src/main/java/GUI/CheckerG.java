@@ -10,10 +10,28 @@ import onBoard.Piece;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * The type Checker g.
+ */
 public class CheckerG extends Ellipse {
+    /**
+     * The Color.
+     */
     final Piece.color color;
     private final CheckersClient client;
     private final PrintWriter out;
+
+    /**
+     * Instantiates a new Checker g.
+     *
+     * @param xCenter   the x center
+     * @param yCenter   the y center
+     * @param radiusWOX the radius wox
+     * @param radiusWOY the radius woy
+     * @param color     the color
+     * @param out       the out
+     * @param client    the client
+     */
     public CheckerG(double xCenter, double yCenter, double radiusWOX, double radiusWOY, Piece.color color, PrintWriter out, CheckersClient client){
         super(xCenter, yCenter, radiusWOX, radiusWOY);
         setOnMouseReleased(new CheckerGEventHandler());
@@ -21,10 +39,23 @@ public class CheckerG extends Ellipse {
         this.color = color;
         this.client = client;
     }
+
+    /**
+     * Gets pos.
+     *
+     * @return the pos
+     */
     public Pair<Integer, Integer> getPos()
     {
         return new Pair<>((int)getCenterX(), (int)getCenterY());
     }
+
+    /**
+     * Sets pos.
+     *
+     * @param PosX the pos x
+     * @param PosY the pos y
+     */
     public void setPos(int PosX, int PosY)
     {
         setCenterX(PosX);
@@ -50,10 +81,23 @@ public class CheckerG extends Ellipse {
         return result;
     }
 
+    /**
+     * The type Checker g event handler.
+     */
     class CheckerGEventHandler implements EventHandler<MouseEvent> {
+        /**
+         * The Checker g.
+         */
         CheckerG checkerG;
         private double x;
         private double y;
+
+        /**
+         * Move checker.
+         *
+         * @param mouseEvent the mouse event
+         * @throws IOException the io exception
+         */
         public void moveChecker(MouseEvent mouseEvent) throws IOException {
             double dx = mouseEvent.getX() - x;
             double dy = mouseEvent.getY() - y;

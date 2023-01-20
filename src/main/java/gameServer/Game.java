@@ -8,6 +8,9 @@ import onBoard.Board;
 import java.io.*;
 import java.net.Socket;
 
+/**
+ * The type Game.
+ */
 public class Game implements Runnable{
 
     private final Socket firstPlayer;
@@ -16,15 +19,45 @@ public class Game implements Runnable{
     private int OldX, OldY, NewX, NewY;
     private AbstractGame gameType;
 
+    /**
+     * The Input first player.
+     */
     InputStream inputFirstPlayer;
+    /**
+     * The Buffor first player.
+     */
     BufferedReader bufforFirstPlayer;
+    /**
+     * The Input second player.
+     */
     InputStream inputSecondPlayer;
+    /**
+     * The Buffor second player.
+     */
     BufferedReader bufforSecondPlayer;
+    /**
+     * The Output first player.
+     */
     OutputStream outputFirstPlayer;
+    /**
+     * The Printer first player.
+     */
     PrintWriter printerFirstPlayer;
+    /**
+     * The Output second player.
+     */
     OutputStream outputSecondPlayer;
+    /**
+     * The Printer second player.
+     */
     PrintWriter printerSecondPlayer;
 
+    /**
+     * Instantiates a new Game.
+     *
+     * @param firstPlayer  the first player
+     * @param secondPlayer the second player
+     */
     public Game(Socket firstPlayer, Socket secondPlayer){
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
